@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<% session[:track_id] = @track.id %>
+
+<%= link_to @track.product.name, @track.product %>
+
+<p>
+  <b>Name:</b>
+  <%= @track.name %>
+</p>
+
+<p>
+  <b>Owner:</b>
+  <%= link_to @track.owner.username, @track.owner %>
+</p>
+
+<p>
+  <b>Components:</b><br />
+  <% @track.components.each do |component| %>
+    <%= link_to component.name, component %>
+    <br />
+  <% end %>
+  <% session[:track_id] = @track.id %>
+  <%= link_to 'New Component', new_component_path %>
+</p>
+
+<p>
+  <b>Users:</b><br />
+  <% @track.users.each do |user| %>
+    <%= link_to user.username, user %>
+    <br />
+  <% end %>
+</p>
+
+<%= link_to 'Edit', edit_track_path(@track) %>

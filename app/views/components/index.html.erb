@@ -1,0 +1,23 @@
+<h1>Listing components</h1>
+
+<table>
+  <tr>
+    <th>Track</th>
+    <th>Name</th>
+    <th>Owner</th>
+    <th></th>
+  </tr>
+
+<% @components.each do |component| %>
+  <tr>
+    <td><%= link_to component.track.name, component.track %></td>
+    <td><%= link_to component.name, component %></td>
+    <td><%= link_to component.owner.username, component.owner %></td>
+    <td><%= link_to 'Delete', component, :confirm => 'Are you sure? All related objects would be deleted.', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Component', new_component_path %>

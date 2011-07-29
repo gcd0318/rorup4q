@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Rorup4t</title>
+  <%= stylesheet_link_tag :all %>
+  <%= javascript_include_tag :defaults %>
+  <%= csrf_meta_tag %>
+</head>
+<body>
+
+  <div id="banner">
+    <%= image_tag("logo.png" ) %>
+    <%= @page_title || "Uni-Platform for Test" %>
+  </div>
+  <div id="columns">
+    <div id="side">
+    <a href="http://www....">Home</a><br />
+    <a href="http://www..../faq">Questions</a><br />
+    <a href="http://www..../news">News</a><br />
+    <a href="http://www..../contact">Contact</a><br />
+    <% if session[:user_id] %>
+      <br />
+      <%= link_to 'Users', users_path %><br />
+      <%= link_to 'Products', products_path %><br />
+      <%= link_to 'Bugs', bugs_path %><br />
+      <br />
+      <%= button_to 'Logout', logout_path, :method => :delete %>
+    <% end %>
+    </div>
+    <div id="main">
+      <% session[:condHash] = @condHash if @condHash %>
+      <%= yield %>
+    </div>
+  </div>
+
+</body>
+</html>
+

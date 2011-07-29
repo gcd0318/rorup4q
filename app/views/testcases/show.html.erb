@@ -1,0 +1,85 @@
+<p id="notice"><%= notice %></p>
+
+<%= link_to @testcase.feature.component.track.product.name, @testcase.feature.component.track.product %> > <%= link_to @testcase.feature.component.track.name, @testcase.feature.component.track %> > <%= link_to @testcase.feature.component.name, @testcase.feature.component %> > <%= link_to @testcase.feature.name, @testcase.feature %>
+
+<p>
+  <b>Title:</b>
+  <%= @testcase.title %>
+</p>
+
+<b>Body:</b><br />
+<% arr = Array.new %>
+<% @testcase.body.each_line {|s| arr << s } %>
+<% arr.each do |line| %>
+  <%= line.strip %>
+  <br />
+<% end %>
+
+<%= form_tag '/testcase/save_status', :method=>'get' do %>
+  <%= hidden_field_tag :id,  @testcase.id %><br />
+  <b>Status:</b>
+  <% statusArray = ['BLOCK','DONE','FAIL','UNDO','ONGO'] %>
+  <%= select_tag :status,
+    options_for_select(statusArray, @testcase.status),
+    :onchange => remote_function(
+    :update => "selected_status",
+    :method => "get",
+    :with => "Form.Element.serialize(this)",
+    :url => { :controller => :testcases, :action => :bug_links, :id=>@testcase.id })
+  %>
+  <div id="selected_status">
+    <%= render 'bug_link' %>
+  </div>
+
+  <%= submit_tag 'Save Status'%><br />
+
+<% end %>
+<% TestcaseBugXref.where(:testcase_id=>@testcase.id).each do |xref| %>
+  <br />
+  <%= link_to xref.bug.title, xref.bug %>
+  <%= link_to 'no relate', :action=>"no_relate", :testcase_id=>@testcase.id, :bug_id=>xref.bug_id %>
+<% end %>
+<br />
+
+<p>
+  <b>Owner:</b>
+  <% if @testcase.owner %>
+    <%= link_to @testcase.owner.username, @testcase.owner %>
+  <% end %>
+</p>
+
+<p>
+  <b>Assign to:</b>
+  <% if @testcase.assign_to %>
+    <%= link_to @testcase.assign_to.username, @testcase.assign_to %>
+  <% end %>
+</p>
+
+  <p>
+    <b>Related cases:</b><br />
+    <li>pre_testcase:
+    <% @testcase.from_xrefs.each do |x| %>
+      <%= link_to x.from_testcase.title, testcase_path(x.from_testcase) %>
+      <%= link_to "remove link", :action=>"remove_link", :to_testcase_id=>@testcase.id, :from_testcase_id=>x.from_testcase_id %>
+      <br />
+    <% end %>
+    </li>
+    <li>
+    post_testcase:
+    <% @testcase.to_xrefs.each do |x| %>
+      <%= link_to x.to_testcase.title, testcase_path(x.to_testcase) %>
+      <%= link_to "remove link", :action=>"remove_link", :from_testcase_id=>@testcase.id, :to_testcase_id=>x.to_testcase_id %>
+      <br />
+    <% end %>
+    </li>
+    <div class="field">
+    <%= form_tag '/testcase/add_link' do %>
+      <b>Associate to:</b>
+      <%= hidden_field_tag :from_testcase_id,  @testcase[:id] %><br />
+      <%= text_field_tag :to_testcase_id %><br />
+      <%= submit_tag 'Link'%>
+    <% end %>
+    </div>
+  </p>
+
+<%= link_to 'Edit', edit_testcase_path(@testcase) %>

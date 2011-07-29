@@ -1,0 +1,25 @@
+<%= form_for(@testcase_bug_xref) do |f| %>
+  <% if @testcase_bug_xref.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@testcase_bug_xref.errors.count, "error") %> prohibited this testcase_bug_xref from being saved:</h2>
+
+      <ul>
+      <% @testcase_bug_xref.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :testcase_id %><br />
+    <%= f.text_field :testcase_id %>
+  </div>
+  <div class="field">
+    <%= f.label :bug_id %><br />
+    <%= f.text_field :bug_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

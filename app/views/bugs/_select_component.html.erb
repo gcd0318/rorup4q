@@ -1,0 +1,14 @@
+<%= label_tag :component %>:
+<%= select_tag :component_id,
+  options_for_select(@components.collect{|c| [c.name, c.id]}),
+  :include_blank=>true,
+  :onchange => remote_function(
+    :update => "features",
+    :method => "get",
+    :with => "Form.Element.serialize(this)", 
+    :url => { :controller => :bugs, :action => :get_sub_items})
+%>
+<div id="features">
+<%= label_tag :feature %>:
+</div>
+

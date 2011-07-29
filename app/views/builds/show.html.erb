@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @build.name %>
+</p>
+
+<p>
+  <b>Build date:</b>
+  <%= @build.build_date %>
+</p>
+
+<p>
+  <b>Track:</b>
+  <%= @build.track_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_build_path(@build) %> |
+<%= link_to 'Back', builds_path %>

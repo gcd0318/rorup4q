@@ -1,0 +1,113 @@
+
+<%= form_for(@bug, :html => { :multipart => true }) do |f| %>
+  <% if @bug.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@bug.errors.count, "error") %> prohibited this bug from being saved:</h2>
+
+      <ul>
+      <% @bug.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :"Reported by" %>:
+    <%= link_to User.find(session[:user_id]).username, User.find(session[:user_id]) %>
+  </div>
+  <div class="field">
+    <%= f.label :bug_type %>: 
+    <% typeArray = ['FUNC','SUGG','I18N','THUP','UI','ARCH','OTHER'] %>
+    <%= f.select(:bug_type, options_for_select(typeArray, @bug.bug_type)) %>
+  </div>
+
+  <div class="field">
+    <%= f.label :title %>: <%= f.text_field :title %>
+  </div>
+
+
+
+
+
+<% if @bug.feature_id %>
+  <%= f.hidden_field :feature_id, :value => @bug.feature_id %>
+  Feature: <%= link_to @bug.feature.component.track.product.name, @bug.feature.component.track.product %> > <%= link_to @bug.feature.component.track.name, @bug.feature.component.track %> > <%= link_to @bug.feature.component.name, @bug.feature.component %> > <%= link_to @bug.feature.name, @bug.feature %><br />
+  <%= link_to 'Change Feature', :action=>"change_feature", :bug_id=>@bug.id %><br />
+  <%= label_tag "Assign to" %>:
+  <%= collection_select(:bug, :assign_to_id, @bug.feature.users, :id, :username ) %>
+<% else %>
+  <%= render 'select_product' %>
+<% end %>
+
+
+
+
+
+  <div class="field">
+    <%= f.label :build %>: <%= collection_select(:bug, :build_id, Build.all, :id, :name, :prompt => true) %>
+  </div>
+  <div class="field">
+    <%= f.label :"Relative bugs" %><br />
+    <%= text_field_tag 'to_bug_id' %><br />
+    <% if (@bug.from_xrefs.size >0 || @bug.to_xrefs.size > 0) %>
+      <% @bug.from_xrefs.each do |x| %>
+        <%= link_to x.from_bug.title, bug_path(x.from_bug) %>
+        <%= link_to "remove link", :action=>"remove_link", :id=>@bug.id, :linked_id=>x.from_bug_id %>
+        <br />
+      <% end %>
+      <% @bug.to_xrefs.each do |x| %>
+        <%= link_to x.to_bug.title, bug_path(x.to_bug) %>
+        <%= link_to "remove link", :action=>"remove_link", :id=>@bug.id, :linked_id=>x.to_bug_id %>
+        <br />
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="field">
+    <%= f.label :body %><br />
+    <% if @bug.body %>
+      <% arr = Array.new %>
+      <% @bug.body.each_line {|s| arr << s } %>
+      <% arr.each do |line| %>
+        <%= line.strip %><br />
+      <% end %>
+      <%= f.label :comment %><br />
+      <%= text_area_tag :comment %>
+    <% else %>
+      <%= f.text_area :body %>
+    <% end %>
+  </div>
+
+  <div class="field">
+    <%= label_tag :attachment %><br />
+    <% @bug.attachments.each do |a| %>
+      <% if a.id %>
+        <%= link_to a.name, :action=>"get_attach", :attach_id=>a.id %>
+        <%= link_to "Remove", :action=>"remove_attach", :attach_id=>a.id, :bug_id=>@bug.id %>
+        <br />
+      <% end %>  
+    <% end %>
+    <%= render :partial => "attachments/form", :locals => {:upper_form => f} %>  
+  </div>
+
+  <div class="field">
+    <%= f.label :status %><br />
+  <% statusArray = ['CLOSED','DUP','FIXED','NOBUG','NOFIX','NOREP','OPEN'] %>
+  <%= f.select(:status, options_for_select(statusArray, @bug.status)) %>
+  </div>
+
+  <div class="field">
+    <%= f.label :severity %><br />
+  <% severityArray = ['ALERT','HIGH','MID','LOW'] %>
+  <%= f.select(:severity, options_for_select(severityArray, @bug.severity)) %>
+  </div>
+
+  <%= f.hidden_field :reporter_id, :value=>session[:user_id] %>
+
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+

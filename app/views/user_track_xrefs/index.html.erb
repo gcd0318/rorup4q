@@ -1,0 +1,25 @@
+<h1>Listing user_track_xrefs</h1>
+
+<table>
+  <tr>
+    <th>User</th>
+    <th>Track</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @user_track_xrefs.each do |user_track_xref| %>
+  <tr>
+    <td><%= user_track_xref.user_id %></td>
+    <td><%= user_track_xref.track_id %></td>
+    <td><%= link_to 'Show', user_track_xref %></td>
+    <td><%= link_to 'Edit', edit_user_track_xref_path(user_track_xref) %></td>
+    <td><%= link_to 'Destroy', user_track_xref, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New User track xref', new_user_track_xref_path %>

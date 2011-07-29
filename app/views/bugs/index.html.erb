@@ -1,0 +1,32 @@
+<h1>Listing bugs</h1>
+
+<table>
+  <tr>
+    <th>Bug ID</th>
+    <th>Title</th>
+    <th>Reporter</th>
+    <th>Status</th>
+    <th>Feature</th>
+    <th>Bug type</th>
+    <th>Build</th>
+    <th></th>
+  </tr>
+
+<% @bugs.each do |bug| %>
+  <tr>
+    <td><%= bug.id %></td>
+    <td><%= link_to bug.title, bug %></td>
+    <td><%= link_to bug.reporter.username, bug.reporter %></td>
+    <td><%= bug.status %></td>
+    <td><%= link_to bug.feature.name, bug.feature %></td>
+    <td><%= bug.bug_type %></td>
+    <td><%= bug.build_id %></td>
+    <td><%= link_to 'Destroy', bug, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'OPEN bugs', :controller=>'bugs', :status=>'OPEN', :action=>'filter' %>
+<%= link_to 'Report a new bug', new_bug_path %>

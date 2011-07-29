@@ -1,0 +1,10 @@
+<%= upper_form.fields_for :attachment do |a_f| %>
+  <div class="field">
+    <%= a_f.file_field :attach_file %>
+  </div>
+  <%= a_f.hidden_field :owner_id, :value=>session[:user_id] %>
+  <div class="actions">
+    <%= a_f.submit 'Upload' %>
+  </div>
+<% end %>
+

@@ -1,0 +1,13 @@
+<%= form_tag '/testcase/link_to_bug', :method=>'get' do %>
+  <%= hidden_field_tag :id,  @testcase.id %><br />
+  <% if @selected_status == 'BLOCK' %>
+    <b>Related Bugs:</b><br />
+    <%= text_field_tag "bug_id" %>
+    <%= submit_tag 'Link to Bug'%>
+  <% elsif @selected_status == 'FAIL' %>
+    <% session[:testcase_id] = @testcase.id %>
+    <% p session %>
+    <%= link_to 'Report a bug', new_bug_path %>
+  <% end %>
+<% end %>
+

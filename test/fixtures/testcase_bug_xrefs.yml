@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  testcase_id: 1
+  bug_id: 1
+
+two:
+  testcase_id: 1
+  bug_id: 1

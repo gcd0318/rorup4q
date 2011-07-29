@@ -1,0 +1,39 @@
+<h1>Listing testcases</h1>
+
+<table>
+  <tr>
+    <th>Feature</th>
+    <th>Title</th>
+    <th>Status</th>
+    <th>Owner</th>
+    <th>Assigned to</th>
+    <th></th>
+  </tr>
+
+<% @testcases.each do |testcase| %>
+  <tr>
+    <td><%= link_to testcase.feature.name, testcase.feature %></td>
+    <td><%= link_to testcase.title, testcase %></td>
+    <td><%= testcase.status %></td>
+    <td>
+      <% if testcase.owner %>
+        <%= link_to testcase.owner.username, testcase.owner %>
+      <% end %>
+    </td>
+    <td>
+      <% if testcase.assign_to %>
+        <%= link_to testcase.assign_to.username, testcase.assign_to %>
+      <% end %>
+    </td>
+    <td><%= link_to 'Delete', testcase, :confirm => 'Are you sure? All related objects would be deleted.', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+Filters:<br />
+<%= link_to 'My UNDO testcases', :controller=>'testcases', :status=>'UNDO', :owner_id=>session[:user_id], :action=>'filter' %><br />
+<%= link_to 'My FAIL testcases', :controller=>'testcases', :status=>'FAIL', :owner_id=>session[:user_id], :action=>'filter' %><br />
+<%= link_to 'My BLOCK testcases', :controller=>'testcases', :status=>'BLOCK', :owner_id=>session[:user_id], :action=>'filter' %><br />
+<%= link_to 'All my testcases', :controller=>'testcases', :owner_id=>session[:user_id], :action=>'filter' %>

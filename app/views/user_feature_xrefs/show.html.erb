@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>User:</b>
+  <%= @user_feature_xref.user_id %>
+</p>
+
+<p>
+  <b>Feature:</b>
+  <%= @user_feature_xref.feature_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_user_feature_xref_path(@user_feature_xref) %> |
+<%= link_to 'Back', user_feature_xrefs_path %>

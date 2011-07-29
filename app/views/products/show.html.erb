@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<% session[:product_id] = @product.id %>
+
+<p>
+  <b>Name:</b>
+  <%= @product.name %>
+</p>
+
+<p>
+  <b>Owner:</b>
+  <%= link_to @product.owner.username, @product.owner %>
+</p>
+
+<p>
+  <b>Desc:</b>
+  <%= @product.desc %>
+</p>
+
+<p>
+  <b>Tracks:</b><br />
+  <% @product.tracks.each do |track| %>
+    <%= link_to track.name, track_path(track) %>
+    <br />
+  <% end %>
+  <% session[:product_id] = @product.id %>
+  <%= link_to 'New Track', new_track_path %>
+</p>
+
+<p>
+  <b>Users:</b><br />
+  <% @product.users.each do |user| %>
+    <%= link_to user.username, user %>
+    <br />
+  <% end %>
+</p>
+
+
+<%= link_to 'Edit', edit_product_path(@product) %>

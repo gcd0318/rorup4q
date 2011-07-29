@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<% session[:component_id] = @component.id %>
+
+<%= link_to @component.track.product.name, @component.track.product %> > <%= link_to @component.track.name, @component.track %>
+
+<p>
+  <b>Name:</b>
+  <%= @component.name %>
+</p>
+
+<p>
+  <b>Owner:</b>
+  <%= link_to @component.owner.username, @component.owner %>
+</p>
+
+<p>
+  <b>Features:</b><br />
+  <% @component.features.each do |feature| %>
+    <%= link_to feature.name, feature_path(feature) %>
+    <br />
+  <% end %>
+  <% session[:component_id] = @component.id %>
+  <%= link_to 'New Feature', new_feature_path %>
+</p>
+
+<p>
+  <b>Users:</b><br />
+  <% @component.users.each do |user| %>
+    <%= link_to user.username, user %>
+    <br />
+  <% end %>
+</p>
+
+<%= link_to 'Edit', edit_component_path(@component) %>

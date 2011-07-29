@@ -1,0 +1,21 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  title: MyString
+  body: MyString
+  repoter_id: 1
+  status: 1
+  feature_id: 1
+  bug_type: MyString
+  build_id: 1
+  platform_id: 1
+
+two:
+  title: MyString
+  body: MyString
+  repoter_id: 1
+  status: 1
+  feature_id: 1
+  bug_type: MyString
+  build_id: 1
+  platform_id: 1

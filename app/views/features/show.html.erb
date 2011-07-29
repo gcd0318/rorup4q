@@ -1,0 +1,46 @@
+<p id="notice"><%= notice %></p>
+
+<% session[:feature_id] = @feature.id %>
+
+<%= link_to @feature.component.track.product.name, @feature.component.track.product %> > <%= link_to @feature.component.track.name, @feature.component.track %> > <%= link_to @feature.component.name, @feature.component %>
+
+<p>
+  <b>Name:</b>
+  <%= @feature.name %>
+</p>
+
+<p>
+  <b>Owner:</b>
+  <%= link_to @feature.owner.username, @feature.owner %>
+</p>
+
+<p>
+  <b>Users:</b><br />
+  <% @feature.users.each do |user| %>
+    <%= link_to user.username, user %>
+    <br />
+  <% end %>
+</p>
+
+
+
+<p>
+  <b>Testcases:</b><br />
+  <% @feature.testcases.each do |testcase| %>
+    <%= link_to testcase.title, testcase_path(testcase) %><%= testcase.status %>
+    <br />
+  <% end %>
+  <% session[:feature_id] = @feature.id %>
+  <%= link_to 'New Testcase', new_testcase_path %>
+</p>
+
+<p>
+  <b>Bugs:</b><br />
+  <% @feature.bugs.each do |bug| %>
+    <%= link_to bug.title, bug_path(bug) %><%= bug.severity %><%= bug.status %>
+    <br />
+  <% end %>
+  <%= link_to 'New bug', new_bug_path %>
+</p>
+
+<%= link_to 'Edit', edit_feature_path(@feature) %>

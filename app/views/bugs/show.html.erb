@@ -1,0 +1,83 @@
+<p id="notice"><%= notice %></p>
+
+<%= link_to @bug.feature.component.track.product.name, @bug.feature.component.track.product %> > <%= link_to @bug.feature.component.track.name, @bug.feature.component.track %> > <%= link_to @bug.feature.component.name, @bug.feature.component %> > <%= link_to @bug.feature.name, @bug.feature %>
+
+<p>
+<b><%= @bug.bug_type %>: </b>
+<%= @bug.title %>
+</p>
+
+<p>
+  <b>Severity:</b>
+  <%= @bug.severity %>
+</p>
+
+<p>
+  <b>Reporter:</b>
+  <%= link_to @bug.reporter.username, @bug.reporter %>
+</p>
+
+<p>
+  <b>Body:</b><br />
+  <%= @bug.created_at %><br />
+  <% arr = Array.new %>
+  <% @bug.body.each_line {|s| arr << s } %>
+  <% arr.each do |line| %>
+    <%= line.strip %><br />
+  <% end %>
+</p>
+
+<p>
+  <b>Status:</b>
+  <%= @bug.status %>
+</p>
+
+<p>
+  <b>Build:</b>
+  <%= @bug.build.name if @bug.build %>
+</p>
+<p>
+  <b>Assign to:</b>
+  <% if @bug.assign_to %>
+    <%= link_to @bug.assign_to.username, @bug.assign_to %>
+  <% end %>
+</p>
+
+<p>
+  <b>Attachments:</b>
+  <% @bug.attachments.each do |a| %>
+    <br /><%= link_to a.name, :action=>"get_attach", :attach_id=>a.id %>
+  <% end %>
+</p>
+
+
+<p>
+  <b>Related Bugs:</b><br />
+  <% @bug.from_xrefs.each do |xref| %>
+    <%= link_to xref.from_bug.title, xref.from_bug %><br />
+  <% end %>
+  <% @bug.to_xrefs.each do |xref| %>
+    <%= link_to xref.to_bug.title, xref.to_bug %><br />
+  <% end %>
+</p>
+
+<%= form_tag '/bug/link_to_testcase', :method=>'get' do %>
+  <%= hidden_field_tag :id,  @bug.id %><br />
+  <b>Link to Testcases:</b><br />
+  <%= text_field_tag "testcase_id" %>
+  <%= submit_tag 'Link to Testcase'%><br />
+
+
+  <b>Linked Testcases:</b><br />
+  <% @bug.testcase_bug_xrefs.each do |xref| %>
+    <%= link_to xref.testcase.title, xref.testcase %>
+    <%= link_to 'no relate', :action=>"no_relate", :testcase_id=>xref.testcase_id, :bug_id=>@bug.id %>
+    <br />
+  <% end %>
+  <br />
+<% end %>
+
+
+
+
+<%= link_to 'Edit', edit_bug_path(@bug) %>

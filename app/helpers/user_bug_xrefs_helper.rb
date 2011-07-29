@@ -1,0 +1,2 @@
+module UserBugXrefsHelper
+end

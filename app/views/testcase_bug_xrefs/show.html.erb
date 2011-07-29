@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Testcase:</b>
+  <%= @testcase_bug_xref.testcase_id %>
+</p>
+
+<p>
+  <b>Bug:</b>
+  <%= @testcase_bug_xref.bug_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_testcase_bug_xref_path(@testcase_bug_xref) %> |
+<%= link_to 'Back', testcase_bug_xrefs_path %>

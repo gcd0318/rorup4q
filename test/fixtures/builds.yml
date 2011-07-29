@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString
+  build_date: 2011-06-27 16:08:10
+  track_id: 1
+
+two:
+  name: MyString
+  build_date: 2011-06-27 16:08:10
+  track_id: 1

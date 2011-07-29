@@ -1,0 +1,40 @@
+<%= form_for(@product) do |f| %>
+  <% if @product.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@product.errors.count, "error") %> prohibited this product from being saved:</h2>
+
+      <ul>
+      <% @product.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %>:
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :desc %>:
+    <%= f.text_field :desc %>
+  </div>
+  <div class="field">
+    <%= f.label :Owner %>:
+    <% if ! @product.owner %>
+      <% @product.owner_id = session[:user_id] %>
+    <% end %>
+    <%= collection_select(:product, :owner_id, User.all, :id, :username, :prompt => true) %>
+  </div>
+
+  <div class="field">
+    <%= f.label :"Select members" %>:<br />
+    <% User.all.each do |u| -%>
+      <%= check_box_tag("user_ids[]", u.id, @product.users.include?(u)) %>
+      <%= label_tag('', u.username) %>
+    <% end -%>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

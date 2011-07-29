@@ -1,0 +1,14 @@
+<%= label_tag :track %>:
+<%= select_tag :track_id,
+  options_for_select(@tracks.collect{|t| [t.name, t.id]}),
+  :include_blank=>true,
+  :onchange => remote_function(
+    :update => "components",
+    :method => "get",
+    :with => "Form.Element.serialize(this)", 
+    :url => { :controller => :bugs, :action => :get_sub_items})
+%>
+<div id="components">
+<%= label_tag :component %>:
+</div>
+

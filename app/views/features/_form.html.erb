@@ -1,0 +1,40 @@
+<%= form_for(@feature) do |f| %>
+  <% if @feature.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@feature.errors.count, "error") %> prohibited this feature from being saved:</h2>
+
+      <ul>
+      <% @feature.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :component %><br />
+    <%= collection_select(:feature, :component_id, Component.all, :id, :name, :prompt => true) %>
+  </div>
+  <div class="field">
+    <%= f.label :Owner %>:
+    <% if ! @feature.owner %>
+      <% @feature.owner_id = session[:user_id] %>
+    <% end %>
+    <%= collection_select(:feature, :owner_id, @feature.component.users, :id, :username, :prompt => true) %>
+  </div>
+  <div class="field">
+    <%= f.label :"Select members" %>:<br />
+    <% @feature.component.users.each do |u| %>
+      <%= check_box_tag("user_ids[]", u.id, @feature.users.include?(u)) %>
+      <%= label_tag('', u.username) %>
+    <% end %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

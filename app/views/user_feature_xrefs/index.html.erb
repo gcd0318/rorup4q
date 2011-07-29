@@ -1,0 +1,25 @@
+<h1>Listing user_feature_xrefs</h1>
+
+<table>
+  <tr>
+    <th>User</th>
+    <th>Feature</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @user_feature_xrefs.each do |user_feature_xref| %>
+  <tr>
+    <td><%= user_feature_xref.user_id %></td>
+    <td><%= user_feature_xref.feature_id %></td>
+    <td><%= link_to 'Show', user_feature_xref %></td>
+    <td><%= link_to 'Edit', edit_user_feature_xref_path(user_feature_xref) %></td>
+    <td><%= link_to 'Destroy', user_feature_xref, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New User feature xref', new_user_feature_xref_path %>
