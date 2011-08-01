@@ -36,12 +36,6 @@
   <b>Build:</b>
   <%= @bug.build.name if @bug.build %>
 </p>
-<p>
-  <b>Assign to:</b>
-  <% if @bug.assign_to %>
-    <%= link_to @bug.assign_to.username, @bug.assign_to %>
-  <% end %>
-</p>
 
 <p>
   <b>Attachments:</b>
@@ -50,6 +44,14 @@
   <% end %>
 </p>
 
+<p>
+  <b>Assign to:</b>
+  <% if @bug.assign_to %>
+    <%= link_to @bug.assign_to.username, @bug.assign_to %>
+  <% end %>
+</p>
+
+<%= link_to 'Push File to Fix',  %>
 
 <p>
   <b>Related Bugs:</b><br />
