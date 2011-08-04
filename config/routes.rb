@@ -1,12 +1,4 @@
 Rorup4t::Application.routes.draw do
-  root :to => "admin#index"
-
-  resources :user_testcase_xrefs
-
-  resources :testcase_bug_xrefs
-
-  resources :user_bug_xrefs
-  
   resources :bugs
   match "bug/attach_to_bug" => "bugs#attach_to_bug"
   match "bug/get_attach" => "bugs#get_attach"
@@ -17,7 +9,21 @@ Rorup4t::Application.routes.draw do
   match "bug/no_relate" => "bugs#no_relate"
   match 'bug/link_to_testcase' => 'bugs#link_to_testcase'
   match 'bug/change_feature' => 'bugs#change_feature'
+  match 'bug/get_commits' => 'bugs#get_commits'
+  match 'bug/show_commit' => 'bugs#show_commit'
     
+  resources :repositories
+  match 'repository/show_detail' => 'repositories#show_detail'
+  match 'repository/hide_detail' => 'repositories#hide_detail'
+
+  root :to => "admin#index"
+
+  resources :user_testcase_xrefs
+
+  resources :testcase_bug_xrefs
+
+  resources :user_bug_xrefs
+  
   resources :builds
 
   resources :user_feature_xrefs

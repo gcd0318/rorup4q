@@ -9,7 +9,6 @@ class Attachment < ActiveRecord::Base
 
   def attach_file=(f_field)
     self.name = base_part_of(f_field.original_filename)
-#    self.data = f_field.read
   end
 
 end

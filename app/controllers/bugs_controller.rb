@@ -190,13 +190,20 @@ class BugsController < ApplicationController
   
   def remove_attach
     attachment = Attachment.find_by_id(params[:attach_id])
+    bug = attachment.bug
     fullname = attachment.filepath + attachment.name
     File.delete fullname
-    if Dir.glob(attachment.filepath).size == 0
+    if Dir.glob(attachment.filepath+'*').size == 0
       Dir.rmdir attachment.filepath
+      basepath = "#{RAILS_ROOT}/public/files/"+File.join('attachments', 'bugs', bug.id.to_s)
+      p Dir.glob(basepath+'/*')
+      if Dir.glob(basepath+'/*').size == 0
+        Dir.rmdir basepath
+      end
     end
+    attachment.destroy
     respond_to do |format|
-      format.html { redirect_to(edit_bug_path(@bug), :notice => 'Attachment was removed.') }
+      format.html { redirect_to(edit_bug_path(bug), :notice => 'Attachment was removed.') }
       format.xml
     end
   end
@@ -277,5 +284,20 @@ class BugsController < ApplicationController
     end
   end
 
+  def get_commits
+    @commits = Array.new
+    @bug = Bug.find_by_id(params[:bug_id])
+    @bug.feature.component.track.repositories.each do |r|
+      r.get_commits.each do |c|
+        if c.message.include? @bug.id.to_s
+          @commits << c
+        end
+      end
+    end
+    render :action => 'show'
+  end
+
+  def show_commit
+  end
 
 end

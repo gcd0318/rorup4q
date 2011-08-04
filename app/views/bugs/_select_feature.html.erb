@@ -2,7 +2,7 @@
 <%= select_tag :feature_id,
   options_for_select(@features.collect{|f| [f.name, f.id]}),
   :include_blank=>true,
-  :onchange => remote_function(
+  :onclick => remote_function(
     :update => "assign_to",
     :method => "get",
     :with => "Form.Element.serialize(this)", 

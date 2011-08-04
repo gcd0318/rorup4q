@@ -29,3 +29,5 @@ gem 'mysql2', '0.2.7'
 # group :development, :test do
 #   gem 'webrat'
 # end
+
+gem 'grit'

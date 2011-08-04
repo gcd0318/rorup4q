@@ -2,13 +2,13 @@
 <%= select_tag :product_id,
   options_for_select(Product.all.collect{|p| [p.name, p.id]}),
   :include_blank=>true,
-  :onchange => remote_function(
+  :onclick => remote_function(
     :update => "tracks", 
     :method => "get",
     :with => "Form.Element.serialize(this)",
     :url => { :controller => :bugs, :action => :get_sub_items})
 %>
 <div id="tracks">
-<%= label_tag :track %>:
+  <%= label_tag :track %>:
 </div>
 

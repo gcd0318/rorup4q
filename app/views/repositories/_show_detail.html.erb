@@ -1,0 +1,20 @@
+<% if @commits %>
+  <table>
+    <tr>
+      <th>Author</th>
+      <th>Authored at</th>
+      <th>Committer</th>
+      <th>Committed at</th>
+      <th>Comments</th>
+    </tr>
+  <% @commits.each do |c| %>
+    <tr>
+      <td><%= c.author %></td>
+      <td><%= c.authored_date %></td>
+      <td><%= c.committer %></td>
+      <td><%= c.committed_date %></td>
+      <td><%= c.message %></td>
+    </tr>
+  <% end %>
+  </table>
+<% end %>

@@ -84,7 +84,7 @@
     <% @bug.attachments.each do |a| %>
       <% if a.id %>
         <%= link_to a.name, :action=>"get_attach", :attach_id=>a.id %>
-        <%= link_to "Remove", :action=>"remove_attach", :attach_id=>a.id, :bug_id=>@bug.id %>
+        <%= link_to "Remove", :action=>"remove_attach", :attach_id=>a.id %>
         <br />
       <% end %>  
     <% end %>

@@ -1,0 +1,31 @@
+<%= form_for(@repository) do |f| %>
+  <% if @repository.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@repository.errors.count, "error") %> prohibited this repository from being saved:</h2>
+
+      <ul>
+      <% @repository.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= f.hidden_field :track_id, :value=>session[:track_id] %>
+  <div class="field">
+    <%= f.label :name %>: <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :password %>: <%= f.password_field :password %>
+  </div>
+  <div class="field">
+    <%= f.label 'Local or Remote' %>: <% lrArray = ['LOCAL', 'REMOTE'] %>
+    <%= f.select(:lr_flag, options_for_select(lrArray, @repository.lr_flag)) %>
+  </div>
+  <div class="field">
+    <%= f.label :filepath %>: <%= f.text_field :filepath %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

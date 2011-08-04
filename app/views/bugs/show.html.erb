@@ -51,7 +51,29 @@
   <% end %>
 </p>
 
-<%= link_to 'Push File to Fix',  %>
+
+
+
+
+
+
+<%= link_to 'Show Push History', :controller => 'bugs', :action => 'get_commits', :bug_id => @bug.id %>
+<br />
+  <% if @commits %>
+    <% @commits.each do |c| %>
+      <%= c.message %><%= link_to 'show detail', :action=>'show_commit' %><br />
+    <% end %>
+  <% else %>
+    ok
+  <% end %>
+
+
+
+
+
+
+
+
 
 <p>
   <b>Related Bugs:</b><br />
@@ -78,8 +100,6 @@
   <% end %>
   <br />
 <% end %>
-
-
 
 
 <%= link_to 'Edit', edit_bug_path(@bug) %>

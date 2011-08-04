@@ -1,0 +1,6 @@
+<%= label_tag 'Pushed Files' %><br />
+<% @commits.each do |c| %>
+  <%= c.message %><%= link_to 'show detail', :action=>'show_commit' %><br />
+<% end %>
+
+<%= link_to 'back' %>

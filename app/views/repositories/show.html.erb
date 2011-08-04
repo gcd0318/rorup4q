@@ -1,0 +1,48 @@
+<p id="notice"><%= notice %></p>
+
+<% session[:repository_id] = @repository.id %>
+
+<%= link_to @repository.track.product.name, @repository.track.product %> > <%= link_to @repository.track.name, @repository.track %>
+
+<p>
+  <b>Name:</b>
+  <%= @repository.name %>
+</p>
+
+<p>
+  <b>LR Flag:</b>
+  <%= @repository.lr_flag %>
+</p>
+
+<p>
+  <b>Filepath:</b>
+  <%= @repository.filepath %>
+</p>
+
+<%= link_to 'Edit', edit_repository_path(@repository) %><br />
+---------------------------------<br />
+<%= javascript_include_tag 'prototype' %>
+<% if @commits %>
+  <%= link_to 'Hide Detail', :controller => 'repositories', :action => 'hide_detail', :id=>@repository.id %>
+  <table>
+    <tr>
+      <th>Author</th>
+      <th>Authored at</th>
+      <th>Committer</th>
+      <th>Committed at</th>
+      <th>Comments</th>
+    </tr>
+  <% @commits.each do |c| %>
+    <tr>
+      <td><%= c.author %></td>
+      <td><%= c.authored_date %></td>
+      <td><%= c.committer %></td>
+      <td><%= c.committed_date %></td>
+      <td><%= c.message %></td>
+    </tr>
+  <% end %>
+  </table>
+<% else %>
+  <%= link_to 'Show Detail', :controller => 'repositories', :action => 'show_detail', :id=>@repository.id %> 
+<%end%>
+

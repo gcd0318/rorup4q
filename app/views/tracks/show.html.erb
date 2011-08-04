@@ -32,4 +32,13 @@
   <% end %>
 </p>
 
+<p>
+  <b>Repositories:</b><br />
+  <% @track.repositories.each do |r| %>
+    <%= link_to r.name, r %>
+    <br />
+  <% end %>
+  <%= link_to 'New Repository', new_repository_path %>
+</p>
+
 <%= link_to 'Edit', edit_track_path(@track) %>

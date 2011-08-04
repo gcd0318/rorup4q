@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110727025550) do
+ActiveRecord::Schema.define(:version => 20110801032931) do
 
   create_table "attachments", :force => true do |t|
     t.string   "name"
@@ -74,6 +74,16 @@ ActiveRecord::Schema.define(:version => 20110727025550) do
     t.string   "desc"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "repositories", :force => true do |t|
+    t.string   "name"
+    t.integer  "track_id"
+    t.string   "password"
+    t.string   "lr_flag"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "filepath"
   end
 
   create_table "testcase_bug_xrefs", :id => false, :force => true do |t|
