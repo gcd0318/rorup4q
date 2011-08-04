@@ -284,20 +284,15 @@ class BugsController < ApplicationController
     end
   end
 
-  def get_commits
-    @commits = Array.new
+  def show_commits
     @bug = Bug.find_by_id(params[:bug_id])
-    @bug.feature.component.track.repositories.each do |r|
-      r.get_commits.each do |c|
-        if c.message.include? @bug.id.to_s
-          @commits << c
-        end
-      end
-    end
+    @commits = @bug.feature.component.track.main_repo.get_s_commits(@bug, @bug.id.to_s)
     render :action => 'show'
   end
-
-  def show_commit
+  def hide_commits
+    @bug = Bug.find_by_id(params[:bug_id])
+    @commits = nil
+    render :action => 'show'
   end
 
 end

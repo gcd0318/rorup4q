@@ -57,16 +57,12 @@
 
 
 
-<%= link_to 'Show Push History', :controller => 'bugs', :action => 'get_commits', :bug_id => @bug.id %>
-<br />
-  <% if @commits %>
-    <% @commits.each do |c| %>
-      <%= c.message %><%= link_to 'show detail', :action=>'show_commit' %><br />
-    <% end %>
-  <% else %>
-    ok
-  <% end %>
-
+<% if @commits_arr %>
+  <%= link_to 'Hide Push History', :controller => 'bugs', :action => 'hide_commits', :bug_id => @bug.id %><br />
+  <%= render :partial => 'repositories/show_commits', :locals => {:upper_commits => @commits} %>  
+<% else %>
+  <%= link_to 'Show Push History', :controller => 'bugs', :action => 'show_commits', :bug_id => @bug.id %>
+<% end %>
 
 
 

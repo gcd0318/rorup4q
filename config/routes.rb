@@ -9,12 +9,13 @@ Rorup4t::Application.routes.draw do
   match "bug/no_relate" => "bugs#no_relate"
   match 'bug/link_to_testcase' => 'bugs#link_to_testcase'
   match 'bug/change_feature' => 'bugs#change_feature'
-  match 'bug/get_commits' => 'bugs#get_commits'
-  match 'bug/show_commit' => 'bugs#show_commit'
+  match 'bug/show_commits' => 'bugs#show_commits'
+  match 'bug/hide_commits' => 'bugs#hide_commits'
     
   resources :repositories
   match 'repository/show_detail' => 'repositories#show_detail'
   match 'repository/hide_detail' => 'repositories#hide_detail'
+  match 'repository/show_commit' => 'repositories#show_commit'
 
   root :to => "admin#index"
 

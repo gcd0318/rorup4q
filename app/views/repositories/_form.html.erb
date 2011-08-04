@@ -19,6 +19,9 @@
     <%= f.label :password %>: <%= f.password_field :password %>
   </div>
   <div class="field">
+    <%= label_tag 'Main Repository' %>: <%= check_box_tag 'is_main', true %> Yes
+  </div>
+  <div class="field">
     <%= f.label 'Local or Remote' %>: <% lrArray = ['LOCAL', 'REMOTE'] %>
     <%= f.select(:lr_flag, options_for_select(lrArray, @repository.lr_flag)) %>
   </div>

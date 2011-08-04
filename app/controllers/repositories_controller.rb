@@ -44,6 +44,14 @@ class RepositoriesController < ApplicationController
 
     respond_to do |format|
       if @repository.save
+
+        is_main = params[:is_main]
+        if is_main
+          track = @repository.track
+          track.main_repo_id = params[:id]
+          track.save
+        end
+      
         format.html { redirect_to(@repository, :notice => 'Repository was successfully created.') }
         format.xml  { render :xml => @repository, :status => :created, :location => @repository }
       else
@@ -57,6 +65,12 @@ class RepositoriesController < ApplicationController
   # PUT /repositories/1.xml
   def update
     @repository = Repository.find(params[:id])
+    is_main = params[:is_main]
+    if is_main
+      track = @repository.track
+      track.main_repo_id = params[:id]
+      track.save
+    end
 
     respond_to do |format|
       if @repository.update_attributes(params[:repository])
@@ -95,9 +109,18 @@ class RepositoriesController < ApplicationController
     render :action => 'show'
   end
   
+  def show_commit
+#    @commit = params[:commit]
+    render :partial => 'show_commit'
+  end
 
 
-
+  def diff_commits
+    if params[:early_commit]
+      @diff = 
+      render :partial => "show_commits"
+    end
+  end
 
 
 end
