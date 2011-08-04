@@ -95,9 +95,6 @@ class RepositoriesController < ApplicationController
     end
   end
 
-
-
-
   def show_detail
     @repository = Repository.find(params[:id])
     @commits = @repository.get_commits
@@ -109,16 +106,28 @@ class RepositoriesController < ApplicationController
     render :action => 'show'
   end
   
+
+
+
+
+
+
   def show_commit
-#    @commit = params[:commit]
+    @bug = Bug.find_by_id(params[:bug_id])
+    repo = @bug.feature.component.track.main_repo
+    @commit = repo.get_commit_by_id(params[:commit])
+    @earlier_commits = repo.earlier_commits(@commit)
     render :partial => 'show_commit'
   end
 
 
   def diff_commits
-    if params[:early_commit]
-      @diff = 
-      render :partial => "show_commits"
+    repo = Bug.find_by_id(params[:bug_id]).feature.component.track.main_repo
+    c1 = repo.get_commit_by_id(params[:commit])
+    if params[:earlier_commit]
+      c2 = repo.get_commit_by_id(params[:earlier_commit])
+      @diff = repo.diff_commits(c1, c2)
+      render :partial => "show_commit"
     end
   end
 

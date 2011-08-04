@@ -1,6 +1,6 @@
 <% if @commits %>
   <% @commits.each do |c| %>
-    <%= link_to c.message, :controller => :repositories, :action=>'show_commit', :commit=>c, :cid => @commits.index(c), :bug_id => @bug.id %><br />
+    <%= link_to c.message, :controller => :repositories, :action=>'show_commit', :bug_id=>@bug.id, :commit=>c %><br />
   <% end %>
 <% end %>
 

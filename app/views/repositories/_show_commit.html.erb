@@ -16,16 +16,19 @@
     </tr>
   </table>
 
-<%= select_tag :early_commit,
-  options_for_select(@early_commits.collect{|ec| [ec.committed_date, ec]}),
+<%= select_tag :earlier_commit,
+  options_for_select(@earlier_commits.collect{|ec| [ec.committed_date.to_s+': '+ec.message, ec.id]}),
   :include_blank=>true,
   :onclick => remote_function(
     :update => "diff_commits",
     :method => "get",
-    :with => "Form.Element.serialize(this)", 
+    :with => "Form.Element.serialize(this)",
     :url => { :controller => :repositories, :action => :diff_commits})
 %>
 <% end %>
 
 <div id='diff_commits'>
+  <%= @diff %>
 </div>
+
+<%= link_to 'Back', @bug %>

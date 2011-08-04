@@ -16,6 +16,7 @@ Rorup4t::Application.routes.draw do
   match 'repository/show_detail' => 'repositories#show_detail'
   match 'repository/hide_detail' => 'repositories#hide_detail'
   match 'repository/show_commit' => 'repositories#show_commit'
+  match 'repository/diff_commits' => 'repositories#diff_commits'
 
   root :to => "admin#index"
 

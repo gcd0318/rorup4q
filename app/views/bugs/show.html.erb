@@ -57,9 +57,9 @@
 
 
 
-<% if @commits_arr %>
+<% if @commits %>
   <%= link_to 'Hide Push History', :controller => 'bugs', :action => 'hide_commits', :bug_id => @bug.id %><br />
-  <%= render :partial => 'repositories/show_commits', :locals => {:upper_commits => @commits} %>  
+  <%= render 'repositories/show_commits' %>  
 <% else %>
   <%= link_to 'Show Push History', :controller => 'bugs', :action => 'show_commits', :bug_id => @bug.id %>
 <% end %>

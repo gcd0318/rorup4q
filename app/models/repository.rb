@@ -21,11 +21,22 @@ class Repository < ActiveRecord::Base
   
   def get_commit_by_id id
     repo = Repo.new(self.filepath)
-    return repo.commits.find_by_id id
+    return repo.commit(id)
   end
 
   def is_main
     return self.track.main_repo_id == self.id
+  end
+
+
+  def earlier_commits c
+    repo = Repo.new(self.filepath)
+    return repo.commits_between(repo.commits.last, c)
+  end
+  
+  def diff c1, c2
+    p Repo.new(self.filepath).diff(c1, c2)
+    return Repo.new(self.filepath).diff(c1, c2)
   end
 
 end
