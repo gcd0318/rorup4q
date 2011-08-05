@@ -31,10 +31,12 @@ class Repository < ActiveRecord::Base
 
   def earlier_commits c
     repo = Repo.new(self.filepath)
-    return repo.commits_between(repo.commits.last, c)
+    ecs = repo.commits_between(repo.commits.last, c)
+    ecs.pop
+    return ecs
   end
   
-  def diff c1, c2
+  def commits_diff c1, c2
     p Repo.new(self.filepath).diff(c1, c2)
     return Repo.new(self.filepath).diff(c1, c2)
   end

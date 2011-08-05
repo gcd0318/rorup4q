@@ -65,12 +65,16 @@ class RepositoriesController < ApplicationController
   # PUT /repositories/1.xml
   def update
     @repository = Repository.find(params[:id])
-    is_main = params[:is_main]
-    if is_main
+    if params[:is_main]
+      is_main = params[:is_main]
       track = @repository.track
       track.main_repo_id = params[:id]
-      track.save
+    else
+      is_main = false
+      track = @repository.track
+      track.main_repo_id = nil
     end
+    track.save
 
     respond_to do |format|
       if @repository.update_attributes(params[:repository])
@@ -120,15 +124,13 @@ class RepositoriesController < ApplicationController
     render :partial => 'show_commit'
   end
 
-
   def diff_commits
     repo = Bug.find_by_id(params[:bug_id]).feature.component.track.main_repo
-    c1 = repo.get_commit_by_id(params[:commit])
-    if params[:earlier_commit]
-      c2 = repo.get_commit_by_id(params[:earlier_commit])
-      @diff = repo.diff_commits(c1, c2)
-      render :partial => "show_commit"
-    end
+    @bug = Bug.find_by_id(params[:bug_id])
+    @commit = repo.get_commit_by_id(params[:c])
+    @earlier_commits = repo.earlier_commits(@commit)
+    @diff = repo.commits_diff(repo.get_commit_by_id(params[:c]), repo.get_commit_by_id(params[:earlier_commit]))
+    render :partial => "show_commit"
   end
 
 

@@ -1,4 +1,5 @@
-<% if @commit %>
+<%= form_tag '/repository/diff_commits' do %>
+  <%= label_tag @commit.id %>
   <table>
     <tr>
       <th>Author</th>
@@ -16,19 +17,20 @@
     </tr>
   </table>
 
-<%= select_tag :earlier_commit,
-  options_for_select(@earlier_commits.collect{|ec| [ec.committed_date.to_s+': '+ec.message, ec.id]}),
-  :include_blank=>true,
-  :onclick => remote_function(
-    :update => "diff_commits",
-    :method => "get",
-    :with => "Form.Element.serialize(this)",
-    :url => { :controller => :repositories, :action => :diff_commits})
-%>
+  <%= select_tag :earlier_commit, options_for_select(@earlier_commits.collect{|ec| [ec.committed_date.to_s+': '+ec.message, ec.id]}) %>
+  <%= hidden_field_tag :bug_id, @bug.id %>
+  <%= hidden_field_tag :c, @commit.id %>
+  <%= submit_tag 'Show Diff' %>
 <% end %>
 
-<div id='diff_commits'>
-  <%= @diff %>
+<div id='diff'>
+  <% if @diff %>
+    <%= @diff %>
+=================================
+    <% @diff.each do |d| %>
+      <%= d %><br />
+    <% end %>
+  <% end %>
 </div>
 
 <%= link_to 'Back', @bug %>

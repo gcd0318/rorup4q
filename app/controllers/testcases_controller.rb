@@ -66,6 +66,7 @@ class TestcasesController < ApplicationController
   def update
     @testcase = Testcase.find(params[:id])
     @testcase[:status] = 'UNDO'
+
     respond_to do |format|
       if @testcase.update_attributes(params[:testcase])
         format.html { redirect_to(@testcase, :notice => 'Testcase was successfully updated.') }
@@ -114,18 +115,25 @@ class TestcasesController < ApplicationController
 
   def save_status
     @testcase = Testcase.find(params[:id])
-    @testcase[:status] = params[:status]
-    msg = ''
-    if @testcase.save
+    if params[:status] == 'BLOCK' && TestcaseBugXref.where(:testcase_id=>params[:id]).size == 0
       respond_to do |format|
-        format.html { redirect_to(@testcase, :notice => 'Status was successfully updated'+msg) }
+        format.html { redirect_to(@testcase, :notice => 'Block test case must link to at least one bug.') }
         format.xml  { head :ok }
       end
     else
-      respond_to do |format|
-        format.html { redirect_to(@testcase, :notice => 'Status is not saved.') }
-        format.xml  { head :ok }
-      end  
+      @testcase[:status] = params[:status]
+      msg = ''
+      if @testcase.save
+        respond_to do |format|
+          format.html { redirect_to(@testcase, :notice => 'Status was successfully updated'+msg) }
+          format.xml  { head :ok }
+        end
+      else
+        respond_to do |format|
+          format.html { redirect_to(@testcase, :notice => 'Status is not saved.') }
+          format.xml  { head :ok }
+        end  
+      end
     end
   end
 
@@ -140,7 +148,7 @@ class TestcasesController < ApplicationController
       respond_to do |format|
         format.html { redirect_to(@testcase, :notice => 'Bug is added.') }
         format.xml  { head :ok }
-      end  
+      end
     end
   end
 
