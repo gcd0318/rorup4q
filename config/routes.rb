@@ -1,5 +1,8 @@
 Rorup4t::Application.routes.draw do
   resources :fixing_codes
+  match "fixing_code/get_subs" => "fixing_codes#get_subs"
+  match "fixing_code/select_a_file" => "fixing_codes#select_a_file"
+  match "fixing_code/re_select" => "fixing_codes#re_select"
 
   get "file_tree/get_sub_path"
 

@@ -1,0 +1,9 @@
+<% if @subs %>
+  <% @subs.each do |sf| %>
+    <% if File.directory? sf %>
+      <%= link_to sf, :action=>'get_subs', :bug_id=>@bug.id, :sf=>sf, :controller=>'fixing_codes' %><br />
+    <% elsif File.file? sf %>
+      <%= link_to sf, :action=>'select_a_file', :bug_id=>@bug.id, :sf=>sf, :controller=>'fixing_codes' %><br />
+    <% end %>
+  <% end %>
+<% end %>

@@ -1,9 +1,20 @@
 <%= link_to 'Bug'+@bug.id.to_s, @bug %>: <%= @bug.title %><br />
 Home Path of <%= @bug.feature.component.track.name %>: <%= @repo.filepath.split('/')[-1] %>
 <br />
-To Fix:
-<br />
-<%= file_field_tag :fix_file %>
-<%= hidden_field_tag :message, 'to fix '+@bug.id.to_s %>
-<br />
-<%= submit_tag 'Upload' %>
+<% if @clicked_file %>
+  File to Be Replaced: <%= @clicked_file %>
+  <%= link_to 'Select Another File', :action=>'re_select', :bug_id=>@bug.id, :controller=>'fixing_codes' %>
+  <br />
+  Select File to Upload: <%= file_field_tag :fix_file %>
+  <%= hidden_field_tag :message, 'to fix '+@bug.id.to_s %>
+  <br />
+  <%= submit_tag 'Upload' %>
+<% else %>
+  To Fix:<br />
+  Select File to Be Replace:<br />
+  <%= link_to @repo.filepath.split('/')[-1],
+    :action=>'get_subs', :bug_id=>@bug.id, :sf=>@repo.filepath, :controller=>'fixing_codes'
+  %>
+  <br />
+  <%= render :partial=>'bugs/select_file', :locals => {:filepath => @repo.filepath } %>
+<% end %>

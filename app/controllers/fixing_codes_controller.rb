@@ -80,4 +80,43 @@ class FixingCodesController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+
+  def get_subs
+    @bug = Bug.find_by_id(params[:bug_id])
+    @repo = @bug.feature.component.track.main_repo
+    @clicked_path = params[:sf]
+    @subs = Array.new
+    if @clicked_path != @repo.filepath
+      @subs << '..'
+    end
+    if ! @clicked_path.end_with? '/'
+      @clicked_path = @clicked_path + '/'
+    end
+    sub_folders = Array.new
+    sub_files = Array.new
+    Dir.glob(@clicked_path+'*').each do |sf|
+      if File.directory? sf
+        sub_folders << sf + '/'
+      elsif File.file? sf
+        sub_files << sf
+      end
+    end
+    @subs = @subs + sub_folders + sub_files
+    render :partial=>'bugs/fix'
+  end
+  def select_a_file
+    @bug = Bug.find_by_id(params[:bug_id])
+    @repo = @bug.feature.component.track.main_repo
+    @clicked_file = params[:sf]
+    render :partial=>'bugs/fix'
+  end
+
+  def re_select
+    @bug = Bug.find_by_id(params[:bug_id])
+    @repo = @bug.feature.component.track.main_repo
+    @clicked_file =nil
+    render :partial=>'bugs/fix'
+  end
+
 end
