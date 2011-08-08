@@ -3,11 +3,14 @@ class Repository < ActiveRecord::Base
   require 'grit'
   include Grit
 
+  def is_main
+    return self.track.main_repo_id == self.id
+  end
+
   def get_commits
     repo = Repo.new(self.filepath)
     return repo.commits
   end
-
   def get_s_commits(bug, s)
     commits_arr = Array.new
     repo = Repo.new(self.filepath)
@@ -18,27 +21,51 @@ class Repository < ActiveRecord::Base
     end
     return commits_arr
   end
-  
   def get_commit_by_id id
     repo = Repo.new(self.filepath)
     return repo.commit(id)
   end
-
-  def is_main
-    return self.track.main_repo_id == self.id
-  end
-
-
   def earlier_commits c
     repo = Repo.new(self.filepath)
     ecs = repo.commits_between(repo.commits.last, c)
     ecs.pop
     return ecs
   end
-  
   def commits_diff c1, c2
-    p Repo.new(self.filepath).diff(c1, c2)
     return Repo.new(self.filepath).diff(c1, c2)
+  end
+
+  def get_sub_folders path
+    if ! path.include? self.filepath
+      path = self.filepath +'/'+ path
+    end
+    if ! path.end_with? '/'
+      oath = path + '/'
+    end
+    subs = Dir.glob(path+'*')
+    sub_folders = Array.new
+    subs.each do |s|
+      if File.directory? s
+        sub_folders << s.split('/')[-1]
+      end
+    end
+    return sub_folders
+  end
+  def get_sub_files path
+    if ! path.include? self.filepath
+      path = self.filepath +'/'+ path
+    end
+    if ! path.end_with? '/'
+      oath = path + '/'
+    end
+    subs = Dir.glob(path+'*')
+    sub_files = Array.new
+    subs.each do |s|
+      if File.file? s
+        sub_files << s.split('/')[-1]
+      end
+    end
+    return sub_files
   end
 
 end

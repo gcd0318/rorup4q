@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  filepath: MyString
+  bug_id: 1
+  owner_id: 1
+  approved: 1
+  approver_id: 1
+
+two:
+  filepath: MyString
+  bug_id: 1
+  owner_id: 1
+  approved: 1
+  approver_id: 1

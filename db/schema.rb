@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110804072408) do
+ActiveRecord::Schema.define(:version => 20110808061140) do
 
   create_table "attachments", :force => true do |t|
     t.string   "name"
@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(:version => 20110804072408) do
     t.datetime "updated_at"
     t.string   "severity",     :default => "MID"
     t.integer  "assign_to_id"
+    t.string   "history"
   end
 
   create_table "builds", :force => true do |t|
@@ -64,6 +65,16 @@ ActiveRecord::Schema.define(:version => 20110804072408) do
     t.string   "name"
     t.integer  "component_id"
     t.string   "owner_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "fixing_codes", :force => true do |t|
+    t.string   "filepath"
+    t.integer  "bug_id"
+    t.integer  "owner_id"
+    t.integer  "approved"
+    t.integer  "approver_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

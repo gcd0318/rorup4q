@@ -1,0 +1,31 @@
+<h1>Listing fixing_codes</h1>
+
+<table>
+  <tr>
+    <th>Filepath</th>
+    <th>Bug</th>
+    <th>Owner</th>
+    <th>Approved</th>
+    <th>Approver</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @fixing_codes.each do |fixing_code| %>
+  <tr>
+    <td><%= fixing_code.filepath %></td>
+    <td><%= fixing_code.bug_id %></td>
+    <td><%= fixing_code.owner_id %></td>
+    <td><%= fixing_code.approved %></td>
+    <td><%= fixing_code.approver_id %></td>
+    <td><%= link_to 'Show', fixing_code %></td>
+    <td><%= link_to 'Edit', edit_fixing_code_path(fixing_code) %></td>
+    <td><%= link_to 'Destroy', fixing_code, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Fixing code', new_fixing_code_path %>

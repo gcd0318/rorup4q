@@ -18,8 +18,19 @@
 </p>
 
 <p>
+  <b>History:</b><br />
+  <% arr = Array.new %>
+  <% @bug.history.each_line {|s| arr << s } %>
+  <% arr.each do |line| %>
+    <%= line.strip %><br />
+  <% end %>
+</p>
+
+
+
+<p>
   <b>Body:</b><br />
-  <%= @bug.created_at %><br />
+  <%= @bug.reporter.username %> at <%= @bug.created_at %>:<br />
   <% arr = Array.new %>
   <% @bug.body.each_line {|s| arr << s } %>
   <% arr.each do |line| %>
@@ -98,4 +109,4 @@
 <% end %>
 
 
-<%= link_to 'Edit', edit_bug_path(@bug) %>
+<%= link_to 'Upload File to Fix', :action=>'fix', :bug_id=>@bug.id %> | <%= link_to 'Edit', edit_bug_path(@bug) %>

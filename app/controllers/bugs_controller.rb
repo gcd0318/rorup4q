@@ -58,6 +58,8 @@ class BugsController < ApplicationController
     if params[:assign_to_id]
       @bug.assign_to_id = params[:assign_to_id]
     end
+    
+    @bug.history = Time.now.to_s + ':' + @bug.feature.component.track.name+':OPEN'
 
     respond_to do |format|
       if @attachment
@@ -103,7 +105,7 @@ class BugsController < ApplicationController
     
     if params[:comment].size > 0
       comment = params[:comment]
-      @bug.body = @bug.body + "\n" + Time.now.to_s + " " + User.find_by_id(session[:user_id]).username + "\n" + comment + "\n"
+      @bug.body = @bug.body + "\n" + User.find_by_id(session[:user_id]).username + ' at ' + Time.now.to_s + ":\n" + comment + "\n"
     end
 
     if params[:commit] == 'Upload'
@@ -118,6 +120,10 @@ class BugsController < ApplicationController
       bx.to_bug_id = params[:to_bug_id]
       bx.from_bug_id = @bug.id
       bx.save
+    end
+
+    if params[:bug][:status] != @bug.history.split(':')[-1]
+      @bug.history = @bug.history + "\n" + Time.now.to_s + ':' + @bug.feature.component.track.name+':' + params[:bug][:status]
     end
 
     respond_to do |format|
@@ -223,7 +229,6 @@ class BugsController < ApplicationController
     end
   end
 
-
   def change_feature
     @bug = Bug.find_by_id(params[:bug_id])
     if ! @bug
@@ -232,7 +237,6 @@ class BugsController < ApplicationController
     @bug.feature = nil
     render :action => "edit"
   end
-
 
   def get_sub_items
     if params[:product_id]
@@ -293,6 +297,13 @@ class BugsController < ApplicationController
     @bug = Bug.find_by_id(params[:bug_id])
     @commits = nil
     render :action => 'show'
+  end
+
+
+  def fix
+    @bug = Bug.find_by_id(params[:bug_id])
+    @repo = @bug.feature.component.track.main_repo
+    render :partial => 'fix'
   end
 
 end

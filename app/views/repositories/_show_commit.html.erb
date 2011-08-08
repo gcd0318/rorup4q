@@ -17,6 +17,7 @@
     </tr>
   </table>
 
+  Earlier Commits:<br />
   <%= select_tag :earlier_commit, options_for_select(@earlier_commits.collect{|ec| [ec.committed_date.to_s+': '+ec.message, ec.id]}) %>
   <%= hidden_field_tag :bug_id, @bug.id %>
   <%= hidden_field_tag :c, @commit.id %>

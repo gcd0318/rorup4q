@@ -112,6 +112,40 @@ class RepositoriesController < ApplicationController
   
 
 
+  def get_sub_folders path
+    repo = Repository.find_by_id(params[:repository_id])
+    if ! path.include? repo.filepath
+      path = repo.filepath +'/'+ path
+    end
+    if ! path.end_with? '/'
+      oath = path + '/'
+    end
+    subs = Dir.glob(path+'*')
+    sub_folders = Array.new
+    subs.each do |s|
+      if File.directory? s
+        sub_folders << s.split('/')[-1]
+      end
+    end
+    return sub_folders
+  end
+  def get_sub_files path
+    if ! path.include? repo.filepath
+      path = repo.filepath +'/'+ path
+    end
+    if ! path.end_with? '/'
+      oath = path + '/'
+    end
+    subs = Dir.glob(path+'*')
+    sub_files = Array.new
+    subs.each do |s|
+      if File.file? s
+        sub_files << s.split('/')[-1]
+      end
+    end
+    return sub_files
+  end
+
 
 
 

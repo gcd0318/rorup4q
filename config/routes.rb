@@ -1,4 +1,10 @@
 Rorup4t::Application.routes.draw do
+  resources :fixing_codes
+
+  get "file_tree/get_sub_path"
+
+  get "file_tree/get_sub_file"
+
   resources :bugs
   match "bug/attach_to_bug" => "bugs#attach_to_bug"
   match "bug/get_attach" => "bugs#get_attach"
@@ -11,6 +17,7 @@ Rorup4t::Application.routes.draw do
   match 'bug/change_feature' => 'bugs#change_feature'
   match 'bug/show_commits' => 'bugs#show_commits'
   match 'bug/hide_commits' => 'bugs#hide_commits'
+  match 'bug/fix' => 'bugs#fix'
     
   resources :repositories
   match 'repository/show_detail' => 'repositories#show_detail'

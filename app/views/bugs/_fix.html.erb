@@ -1,0 +1,9 @@
+<%= link_to 'Bug'+@bug.id.to_s, @bug %>: <%= @bug.title %><br />
+Home Path of <%= @bug.feature.component.track.name %>: <%= @repo.filepath.split('/')[-1] %>
+<br />
+To Fix:
+<br />
+<%= file_field_tag :fix_file %>
+<%= hidden_field_tag :message, 'to fix '+@bug.id.to_s %>
+<br />
+<%= submit_tag 'Upload' %>

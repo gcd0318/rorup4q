@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Filepath:</b>
+  <%= @fixing_code.filepath %>
+</p>
+
+<p>
+  <b>Bug:</b>
+  <%= @fixing_code.bug_id %>
+</p>
+
+<p>
+  <b>Owner:</b>
+  <%= @fixing_code.owner_id %>
+</p>
+
+<p>
+  <b>Approved:</b>
+  <%= @fixing_code.approved %>
+</p>
+
+<p>
+  <b>Approver:</b>
+  <%= @fixing_code.approver_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_fixing_code_path(@fixing_code) %> |
+<%= link_to 'Back', fixing_codes_path %>
