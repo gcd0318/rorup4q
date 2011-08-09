@@ -84,32 +84,32 @@ class FixingCodesController < ApplicationController
 
   def get_subs
     @filepath = params[:filepath]
+    @parent_path = params[:parent_path]
     @bug = Bug.find_by_id(params[:bug_id])
     @repo = @bug.feature.component.track.main_repo
     @root_path = @repo.filepath
-    @subs = Array.new
-    if @filepath != ''
-      @subs << '..'
-    end
-    sub_folders = Array.new
-    sub_files = Array.new
+    @sub_folders = Array.new
+    @sub_files = Array.new
     @real_path = @root_path + params[:parent_path].to_s + @filepath
-    Dir.glob(@real_path+'*').each do |sf|
-      p sf
-      if File.directory? sf
-        sub_folders << sf.gsub(@real_path,'') + '/'
-      elsif File.file? sf
-        sub_files << sf.gsub(@real_path,'')
+    if (@filepath != '') && !(@filepath =='..' && @parent_path.split('/').size==1)
+      @sub_folders << '..'
+    end
+    if @filepath == '..'
+      plist = @parent_path.split('/')
+      plist.pop
+      if plist.size > 0
+        @real_path = File.join(@root_path, plist)+'/'
+      else
+        @real_path = @root_path
       end
     end
-    @subs = @subs + sub_folders + sub_files
-    p @subs
-    if @filepath == '..'
-      plist = @filepath.split('/')
-      plist.pop
-      @filepath = File.join(plist)
-    else
-      @filepath = @real_path.gsub(@root_path,'')
+    @parent_path = @real_path.gsub(@root_path,'')
+    Dir.glob(@real_path+'*').each do |sf|
+      if File.directory? sf
+        @sub_folders << sf.gsub(@real_path,'') + '/'
+      elsif File.file? sf
+        @sub_files << sf.gsub(@real_path,'')
+      end
     end
     render :partial=>'bugs/fix'
   end

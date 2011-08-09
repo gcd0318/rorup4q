@@ -12,6 +12,7 @@
   <% end %>
 
   <%= f.hidden_field :track_id, :value=>session[:track_id] %>
+  <% @repository.track = Track.find_by_id(session[:track_id]) %>
   <div class="field">
     <%= f.label :name %>: <%= f.text_field :name %>
   </div>

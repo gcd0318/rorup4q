@@ -36,6 +36,9 @@
   <b>Repositories:</b><br />
   <% @track.repositories.each do |r| %>
     <%= link_to r.name, r %>
+    <% if @track.main_repo_id == r.id %>
+      MAIN
+    <% end %>
     <br />
   <% end %>
   <%= link_to 'New Repository', new_repository_path %>

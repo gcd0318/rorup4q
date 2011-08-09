@@ -41,17 +41,18 @@ class RepositoriesController < ApplicationController
   # POST /repositories.xml
   def create
     @repository = Repository.new(params[:repository])
+    if ! @repository.filepath.ends_with? '/'
+      @repository.filepath = @repository.filepath+'/'
+    end
 
     respond_to do |format|
       if @repository.save
-
         is_main = params[:is_main]
         if is_main
           track = @repository.track
-          track.main_repo_id = params[:id]
+          track.main_repo_id = @repository.id
           track.save
         end
-      
         format.html { redirect_to(@repository, :notice => 'Repository was successfully created.') }
         format.xml  { render :xml => @repository, :status => :created, :location => @repository }
       else
@@ -68,13 +69,16 @@ class RepositoriesController < ApplicationController
     if params[:is_main]
       is_main = params[:is_main]
       track = @repository.track
-      track.main_repo_id = params[:id]
+      track.main_repo_id = @repository.id
     else
       is_main = false
       track = @repository.track
       track.main_repo_id = nil
     end
     track.save
+    if ! @repository.filepath.ends_with? '/'
+      @repository.filepath = @repository.filepath+'/'
+    end
 
     respond_to do |format|
       if @repository.update_attributes(params[:repository])

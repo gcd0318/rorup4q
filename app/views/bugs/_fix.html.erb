@@ -15,6 +15,16 @@ Home Path of <%= @bug.feature.component.track.name %>: <%= @repo.filepath.split(
   <% if ! @filepath %>
     <% @root_path = @repo.filepath %>
     <% @filepath = '' %>
+    <% @parent_path = '' %>
+    <% @sub_folders = Array.new %>
+    <% @sub_files = Array.new %>
+    <% Dir.glob(@root_path+'*').each do |sf| %>
+      <% if File.directory? sf %>
+        <% @sub_folders << sf.gsub(@root_path, '')+'/' %>
+      <% elsif File.file? sf %>
+        <% @sub_files << sf.gsub(@root_path, '')+'/' %>
+      <% end %>
+    <% end %>
   <% end %>
   <%= render 'bugs/select_file' %>
 <% end %>

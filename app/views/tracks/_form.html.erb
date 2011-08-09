@@ -24,6 +24,10 @@
     <%= collection_select(:track, :owner_id, @track.product.users, :id, :username, :prompt => true) %>
   </div>
 
+  <% if @track.repositories %>
+    Select Main Repository:
+    <%= collection_select(:track, :main_repo_id, @track.repositories, :id, :name, :prompt => true) %>
+  <% end %>
 
   <div class="field">
     <%= f.label :"Select members" %>:<br />
