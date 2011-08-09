@@ -1,4 +1,3 @@
 <%= label_tag "Assign to" %>:
-<% hidden_field_tag :assign_to_id, :value=>@assign_to.id %>
 <%= link_to @assign_to.username, @assign_to %>
-
+<%= hidden_field_tag :assign_to_id, @assign_to.id %>

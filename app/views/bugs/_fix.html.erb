@@ -12,9 +12,9 @@ Home Path of <%= @bug.feature.component.track.name %>: <%= @repo.filepath.split(
 <% else %>
   To Fix:<br />
   Select File to Be Replace:<br />
-  <%= link_to @repo.filepath.split('/')[-1],
-    :action=>'get_subs', :bug_id=>@bug.id, :sf=>@repo.filepath, :controller=>'fixing_codes'
-  %>
-  <br />
-  <%= render :partial=>'bugs/select_file', :locals => {:filepath => @repo.filepath } %>
+  <% if ! @filepath %>
+    <% @root_path = @repo.filepath %>
+    <% @filepath = '' %>
+  <% end %>
+  <%= render 'bugs/select_file' %>
 <% end %>

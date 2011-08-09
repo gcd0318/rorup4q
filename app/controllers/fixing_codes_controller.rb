@@ -83,35 +83,42 @@ class FixingCodesController < ApplicationController
 
 
   def get_subs
+    @filepath = params[:filepath]
     @bug = Bug.find_by_id(params[:bug_id])
     @repo = @bug.feature.component.track.main_repo
-    @clicked_path = params[:sf]
+    @root_path = @repo.filepath
     @subs = Array.new
-    if @clicked_path != @repo.filepath
+    if @filepath != ''
       @subs << '..'
-    end
-    if ! @clicked_path.end_with? '/'
-      @clicked_path = @clicked_path + '/'
     end
     sub_folders = Array.new
     sub_files = Array.new
-    Dir.glob(@clicked_path+'*').each do |sf|
+    @real_path = @root_path + params[:parent_path].to_s + @filepath
+    Dir.glob(@real_path+'*').each do |sf|
+      p sf
       if File.directory? sf
-        sub_folders << sf + '/'
+        sub_folders << sf.gsub(@real_path,'') + '/'
       elsif File.file? sf
-        sub_files << sf
+        sub_files << sf.gsub(@real_path,'')
       end
     end
     @subs = @subs + sub_folders + sub_files
+    p @subs
+    if @filepath == '..'
+      plist = @filepath.split('/')
+      plist.pop
+      @filepath = File.join(plist)
+    else
+      @filepath = @real_path.gsub(@root_path,'')
+    end
     render :partial=>'bugs/fix'
   end
   def select_a_file
     @bug = Bug.find_by_id(params[:bug_id])
     @repo = @bug.feature.component.track.main_repo
-    @clicked_file = params[:sf]
+    @clicked_file = @repo.filepath + params[:filepath]
     render :partial=>'bugs/fix'
   end
-
   def re_select
     @bug = Bug.find_by_id(params[:bug_id])
     @repo = @bug.feature.component.track.main_repo

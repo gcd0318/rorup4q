@@ -1,9 +1,15 @@
+<%= link_to @root_path.split('/')[-1] + '/' + @filepath,
+  :action=>'get_subs', :bug_id=>@bug.id, :controller=>'fixing_codes', :filepath=>@filepath, :parent_path=> ''
+%>
+<br />-----------------------------------<br />
 <% if @subs %>
   <% @subs.each do |sf| %>
-    <% if File.directory? sf %>
-      <%= link_to sf, :action=>'get_subs', :bug_id=>@bug.id, :sf=>sf, :controller=>'fixing_codes' %><br />
-    <% elsif File.file? sf %>
-      <%= link_to sf, :action=>'select_a_file', :bug_id=>@bug.id, :sf=>sf, :controller=>'fixing_codes' %><br />
+    <% if sf.ends_with? '..' %>
+      <%= link_to '..', :action=>'get_subs', :bug_id=>@bug.id, :controller=>'fixing_codes', :filepath=>'', :parent_path=>@fiepath %><br />
+    <% elsif File.directory? @filepath+sf %>
+      <%= link_to sf, :action=>'get_subs', :bug_id=>@bug.id, :controller=>'fixing_codes', :filepath=>sf, :parent_path=>@filepath %><br />
+   <% elsif File.file? @filepath+sf %>
+      <%= link_to sf, :action=>'select_a_file', :bug_id=>@bug.id, :controller=>'fixing_codes', :filepath=>sf, :parent_path=>@filepath %><br />
     <% end %>
   <% end %>
 <% end %>
