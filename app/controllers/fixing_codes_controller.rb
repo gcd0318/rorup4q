@@ -90,7 +90,7 @@ class FixingCodesController < ApplicationController
     @root_path = @repo.filepath
     @sub_folders = Array.new
     @sub_files = Array.new
-    @real_path = @root_path + params[:parent_path].to_s + @filepath
+    real_path = @root_path + params[:parent_path].to_s + @filepath
     if (@filepath != '') && !(@filepath =='..' && @parent_path.split('/').size==1)
       @sub_folders << '..'
     end
@@ -98,32 +98,40 @@ class FixingCodesController < ApplicationController
       plist = @parent_path.split('/')
       plist.pop
       if plist.size > 0
-        @real_path = File.join(@root_path, plist)+'/'
+        real_path = File.join(@root_path, plist)+'/'
       else
-        @real_path = @root_path
+        real_path = @root_path
       end
     end
-    @parent_path = @real_path.gsub(@root_path,'')
-    Dir.glob(@real_path+'*').each do |sf|
+    @parent_path = real_path.gsub(@root_path,'')
+    Dir.glob(real_path+'*').each do |sf|
       if File.directory? sf
-        @sub_folders << sf.gsub(@real_path,'') + '/'
+        @sub_folders << sf.gsub(real_path,'') + '/'
       elsif File.file? sf
-        @sub_files << sf.gsub(@real_path,'')
+        @sub_files << sf.gsub(real_path,'')
       end
     end
-    render :partial=>'bugs/fix'
+    render :action=>'bugs/fix'
   end
   def select_a_file
     @bug = Bug.find_by_id(params[:bug_id])
     @repo = @bug.feature.component.track.main_repo
     @clicked_file = @repo.filepath + params[:filepath]
-    render :partial=>'bugs/fix'
+    render :action=>'bugs/fix'
   end
   def re_select
     @bug = Bug.find_by_id(params[:bug_id])
     @repo = @bug.feature.component.track.main_repo
     @clicked_file =nil
-    render :partial=>'bugs/fix'
+    render :action=>'bugs/fix'
   end
+
+
+
+
+  def replace_file
+  end
+
+
 
 end

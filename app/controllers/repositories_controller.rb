@@ -159,7 +159,7 @@ class RepositoriesController < ApplicationController
     repo = @bug.feature.component.track.main_repo
     @commit = repo.get_commit_by_id(params[:commit])
     @earlier_commits = repo.earlier_commits(@commit)
-    render :partial => 'show_commit'
+    render :action => 'show_commit'
   end
 
   def diff_commits
@@ -168,7 +168,7 @@ class RepositoriesController < ApplicationController
     @commit = repo.get_commit_by_id(params[:c])
     @earlier_commits = repo.earlier_commits(@commit)
     @diff = repo.commits_diff(repo.get_commit_by_id(params[:c]), repo.get_commit_by_id(params[:earlier_commit]))
-    render :partial => "show_commit"
+    render :action => "show_commit"
   end
 
 

@@ -3,10 +3,7 @@ Rorup4t::Application.routes.draw do
   match "fixing_code/get_subs" => "fixing_codes#get_subs"
   match "fixing_code/select_a_file" => "fixing_codes#select_a_file"
   match "fixing_code/re_select" => "fixing_codes#re_select"
-
-  get "file_tree/get_sub_path"
-
-  get "file_tree/get_sub_file"
+  match "fixing_code/replace_file" => "fixing_codes#replace_file"
 
   resources :bugs
   match "bug/attach_to_bug" => "bugs#attach_to_bug"

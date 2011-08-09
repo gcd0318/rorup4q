@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110808061140) do
+ActiveRecord::Schema.define(:version => 20110809053443) do
 
   create_table "attachments", :force => true do |t|
     t.string   "name"
@@ -77,6 +77,7 @@ ActiveRecord::Schema.define(:version => 20110808061140) do
     t.integer  "approver_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "pushed_files"
   end
 
   create_table "products", :force => true do |t|

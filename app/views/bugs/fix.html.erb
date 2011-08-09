@@ -1,0 +1,37 @@
+<%= link_to 'Bug'+@bug.id.to_s, @bug %>: <%= @bug.title %><br />
+Home Path of <%= @bug.feature.component.track.name %>: <%= @repo.filepath.split('/')[-1] %>
+<br />
+<% if @clicked_file %>
+  <%= form_tag '/fixing_code/replace_file' do %>
+    File to Be Replaced:<br />
+    <%= @clicked_file %>
+    <%= link_to 'Select Another File', :action=>'re_select', :bug_id=>@bug.id, :controller=>'fixing_codes' %>
+    <br />
+    Select File to Upload: <%= file_field_tag :fix_file %>
+    <%= hidden_field_tag :message, 'to fix '+@bug.id.to_s %>
+    <%= hidden_field_tag :bug_id, @bug.id %>
+    <%= hidden_field_tag :orig_file, @clicked_file %>
+    <br />
+    <%= submit_tag 'Upload' %>
+  <% end %>
+<% else %>
+  To Fix:<br />
+  Select File to Be Replace:<br />
+  <% if ! @filepath %>
+    <% @root_path = @repo.filepath %>
+    <% @filepath = '' %>
+    <% @parent_path = '' %>
+    <% @sub_folders = Array.new %>
+    <% @sub_files = Array.new %>
+    <% Dir.glob(@root_path+'*').each do |sf| %>
+      <% if File.directory? sf %>
+        <% @sub_folders << sf.gsub(@root_path, '')+'/' %>
+      <% elsif File.file? sf %>
+        <% @sub_files << sf.gsub(@root_path, '')+'/' %>
+      <% end %>
+    <% end %>
+  <% end %>
+  <% @sub_folders.sort! %>
+  <% @sub_files.sort! %>
+  <%= render 'bugs/select_file' %>
+<% end %>

@@ -26,8 +26,6 @@
   <% end %>
 </p>
 
-
-
 <p>
   <b>Body:</b><br />
   <%= @bug.reporter.username %> at <%= @bug.created_at %>:<br />
@@ -62,25 +60,13 @@
   <% end %>
 </p>
 
-
-
-
-
-
-
+<b>Commit History:</b><br />
 <% if @commits %>
-  <%= link_to 'Hide Push History', :controller => 'bugs', :action => 'hide_commits', :bug_id => @bug.id %><br />
   <%= render 'repositories/show_commits' %>  
+  <%= link_to 'Hide', :controller => 'bugs', :action => 'hide_commits', :bug_id => @bug.id %><br />
 <% else %>
-  <%= link_to 'Show Push History', :controller => 'bugs', :action => 'show_commits', :bug_id => @bug.id %>
+  <%= link_to 'Show', :controller => 'bugs', :action => 'show_commits', :bug_id => @bug.id %>
 <% end %>
-
-
-
-
-
-
-
 
 <p>
   <b>Related Bugs:</b><br />

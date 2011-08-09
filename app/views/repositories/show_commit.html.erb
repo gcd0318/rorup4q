@@ -1,0 +1,37 @@
+<%= form_tag '/repository/diff_commits' do %>
+  <%= label_tag @commit.id %>
+  <table>
+    <tr>
+      <th>Author</th>
+      <th>Authored at</th>
+      <th>Committer</th>
+      <th>Committed at</th>
+      <th>Comments</th>
+    </tr>
+    <tr>
+      <td><%= @commit.author %></td>
+      <td><%= @commit.authored_date %></td>
+      <td><%= @commit.committer %></td>
+      <td><%= @commit.committed_date %></td>
+      <td><%= @commit.message %></td>
+    </tr>
+  </table>
+
+  Earlier Commits:<br />
+  <%= select_tag :earlier_commit, options_for_select(@earlier_commits.collect{|ec| [ec.committed_date.to_s+': '+ec.message, ec.id]}) %>
+  <%= hidden_field_tag :bug_id, @bug.id %>
+  <%= hidden_field_tag :c, @commit.id %>
+  <%= submit_tag 'Show Diff' %>
+<% end %>
+
+<div id='diff'>
+  <% if @diff %>
+    <%= @diff %>
+=================================
+    <% @diff.each do |d| %>
+      <%= d %><br />
+    <% end %>
+  <% end %>
+</div>
+
+<%= link_to 'Back', @bug %>
