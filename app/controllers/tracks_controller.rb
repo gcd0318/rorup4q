@@ -119,4 +119,16 @@ class TracksController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+  def delete_repository
+    @track = Track.find_by_id(params[:track_id])
+    if @track.main_repo_id = params[:repository_id]
+      @track.main_repo_id = nil
+    end
+    Repository.find_by_id(params[:repository_id]).destroy
+    respond_to do |format|
+      format.html { redirect_to(@track, :notice => 'Repository is removed.') }
+      format.xml  { head :ok }
+    end
+  end
 end

@@ -39,6 +39,11 @@
     <% if @track.main_repo_id == r.id %>
       MAIN
     <% end %>
+    <%= link_to 'Destroy', 
+      :confirm => 'Are you sure?',
+      :action => :delete_repository,
+      :repository_id=>r.id, :track_id => @track.id
+    %>
     <br />
   <% end %>
   <%= link_to 'New Repository', new_repository_path %>

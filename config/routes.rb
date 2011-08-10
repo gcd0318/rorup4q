@@ -71,6 +71,7 @@ Rorup4t::Application.routes.draw do
   resources :user_track_xrefs
 
   resources :tracks
+  match "track/delete_repository" => "tracks#delete_repository"
 
   resources :products
   match "product/add_member" => "products#add_member"

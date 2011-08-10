@@ -7,15 +7,13 @@
     <th>LR Flag</th>
     <th></th>
     <th></th>
-    <th></th>
   </tr>
 
 <% @repositories.each do |repository| %>
   <tr>
-    <td><%= repository.name %></td>
+    <td><%= link_to repository.name, repository %></td>
     <td><%= repository.track.name %></td>
     <td><%= repository.lr_flag %></td>
-    <td><%= link_to 'Show', repository %></td>
     <td><%= link_to 'Edit', edit_repository_path(repository) %></td>
     <td><%= link_to 'Destroy', repository, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
