@@ -2,6 +2,8 @@ class Repository < ActiveRecord::Base
   belongs_to :track
   require 'grit'
   include Grit
+  
+  validate :must_be_git_path
 
   def is_main
     return self.track.main_repo_id == self.id
@@ -67,5 +69,14 @@ class Repository < ActiveRecord::Base
     end
     return sub_files
   end
+
+  private
+    def must_be_git_path
+      if ! self.filepath.ends_with? '/'
+        self.filepath = self.filepath + '/'
+      end
+      files = Dir.glob(self.filepath+'.git')
+      errors.add(:filepath, "Invalid Repository Path" ) unless files.size > 0
+    end
 
 end

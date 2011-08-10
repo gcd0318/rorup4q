@@ -59,8 +59,6 @@ class BugsController < ApplicationController
       @bug.assign_to_id = params[:assign_to_id]
     end
     
-    @bug.history = Time.now.to_s + ':' + @bug.feature.component.track.name+':OPEN'
-
     respond_to do |format|
       if @attachment
         if @attachment.save
@@ -68,6 +66,9 @@ class BugsController < ApplicationController
           format.xml
         end
       elsif @bug.save
+        bh = BugHistory.new(:bug_id=>@bug.id, :status => 'OPEN')
+        bh.save
+
         format.html { redirect_to(@bug, :notice => 'Bug was successfully created.') }
         format.xml  { render :xml => @bug, :status => :created, :location => @bug }
       else
@@ -122,8 +123,9 @@ class BugsController < ApplicationController
       bx.save
     end
 
-    if params[:bug][:status] != @bug.history.split(':')[-1]
-      @bug.history = @bug.history + "\n" + Time.now.to_s + ':' + @bug.feature.component.track.name+':' + params[:bug][:status]
+    if params[:bug][:status] != @bug.status
+      bh = BugHistory.new(:bug_id=>@bug.id, :status => params[:bug][:status])
+      bh.save
     end
 
     respond_to do |format|
@@ -146,6 +148,9 @@ class BugsController < ApplicationController
   # DELETE /bugs/1.xml
   def destroy
     @bug = Bug.find(params[:id])
+    @bug.bug_histories.each do |bh|
+      bh.destroy
+    end
     TestcaseBugXref.delete_all("bug_id="+params[:id])
     filename = "#{RAILS_ROOT}/public/files/"+File.join('attachments', 'bugs', @bug.id.to_s)
     FileUtils.rm_rf filename

@@ -127,9 +127,13 @@ class FixingCodesController < ApplicationController
   end
 
 
-
-
   def replace_file
+  end
+
+
+  def commit_change
+    @remote_repo = Repository.find_by_id(params[:remote_repo_id])
+    render :partial=>'commit_change'
   end
 
 

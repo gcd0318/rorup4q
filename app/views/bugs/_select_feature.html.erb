@@ -1,14 +1,15 @@
-<%= label_tag :feature %>:
-<%= select_tag :feature_id,
-  options_for_select(@features.collect{|f| [f.name, f.id]}),
-  :include_blank=>true,
-  :onclick => remote_function(
-    :update => "assign_to",
-    :method => "get",
-    :with => "Form.Element.serialize(this)", 
-    :url => { :controller => :bugs, :action => :get_sub_items})
-%>
-<div id="assign_to">
-<%= label_tag :assign_to %>:
-</div>
-
+<% if @features %>
+  <%= label_tag :feature %>:
+  <%= select_tag :feature_id,
+    options_for_select(@features.collect{|f| [f.name, f.id]}),
+    :include_blank=>true,
+    :onclick => remote_function(
+      :update => "assign_to",
+      :method => "get",
+      :with => "Form.Element.serialize(this)", 
+      :url => { :controller => :bugs, :action => :get_sub_items})
+  %>
+  <div id="assign_to">
+    <%= label_tag :assign_to %>:
+  </div>
+<% end %>

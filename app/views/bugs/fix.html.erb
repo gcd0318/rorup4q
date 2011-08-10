@@ -16,6 +16,21 @@ Home Path of <%= @bug.feature.component.track.name %>: <%= @repo.filepath.split(
   <% end %>
 <% else %>
   To Fix:<br />
+  Select remote repository to upload:<br />
+  <%= select_tag :remote_repo_id,
+    options_for_select(@bug.feature.component.track.repositories.collect{|r| [r.name, r.id]}),
+    :include_blank=>true,
+    :onclick => remote_function(
+      :update => 'commit_change',
+      :method => "get",
+      :with => "Form.Element.serialize(this)",
+      :url => { :controller => :fixing_codes, :action => :commit_change})
+  %><br />
+  <div id="commit_change">
+    <%= label_tag 'Repository to Modify:' %>:
+  </div>
+  <br />
+  or<br />
   Select File to Be Replace:<br />
   <% if ! @filepath %>
     <% @root_path = @repo.filepath %>

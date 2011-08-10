@@ -1,3 +1,5 @@
-<%= label_tag "Assign to" %>:
-<%= link_to @assign_to.username, @assign_to %>
-<%= hidden_field_tag :assign_to_id, @assign_to.id %>
+<% if @assign_to %>
+  <%= label_tag "Assign to" %>:
+  <%= link_to @assign_to.username, @assign_to %>
+  <%= hidden_field_tag :assign_to_id, @assign_to.id %>
+<% end %>

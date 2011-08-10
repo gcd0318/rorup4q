@@ -1,4 +1,6 @@
 class Bug < ActiveRecord::Base
+  has_many :bug_histories
+  
   has_many :users, :through=>:user_bug_xrefs
   has_many :user_bug_xrefs
   has_many :testcases, :through => :testcase_bug_xrefs

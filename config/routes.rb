@@ -1,9 +1,12 @@
 Rorup4t::Application.routes.draw do
+  resources :bug_histories
+
   resources :fixing_codes
   match "fixing_code/get_subs" => "fixing_codes#get_subs"
   match "fixing_code/select_a_file" => "fixing_codes#select_a_file"
   match "fixing_code/re_select" => "fixing_codes#re_select"
   match "fixing_code/replace_file" => "fixing_codes#replace_file"
+  match "fixing_code/commit_change" => "fixing_codes#commit_change"
 
   resources :bugs
   match "bug/attach_to_bug" => "bugs#attach_to_bug"

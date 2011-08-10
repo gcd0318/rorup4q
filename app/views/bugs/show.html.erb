@@ -19,10 +19,8 @@
 
 <p>
   <b>History:</b><br />
-  <% arr = Array.new %>
-  <% @bug.history.each_line {|s| arr << s } %>
-  <% arr.each do |line| %>
-    <%= line.strip %><br />
+  <% @bug.bug_histories.each do |bh| %>
+    <%= bh.created_at %>:<%= bh.status %><br />
   <% end %>
 </p>
 
