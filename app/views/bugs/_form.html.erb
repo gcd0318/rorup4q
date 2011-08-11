@@ -93,7 +93,7 @@
 
   <div class="field">
     <%= f.label :status %><br />
-  <% statusArray = ['CLOSED','DUP','FIXED','NOBUG','NOFIX','NOREP','OPEN'] %>
+  <% statusArray = ['OPEN','FIXED','DUP','NOBUG','NOFIX','NOREP','APPROVING','CLOSED'] %>
   <%= f.select(:status, options_for_select(statusArray, @bug.status)) %>
   </div>
 

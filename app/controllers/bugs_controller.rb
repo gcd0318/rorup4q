@@ -66,7 +66,10 @@ class BugsController < ApplicationController
           format.xml
         end
       elsif @bug.save
-        bh = BugHistory.new(:bug_id=>@bug.id, :status => 'OPEN')
+        bh = BugHistory.new(:bug_id=>@bug.id,
+          :status => 'OPEN',
+          :update_by_id=>session[:user_id]
+        )
         bh.save
 
         format.html { redirect_to(@bug, :notice => 'Bug was successfully created.') }
@@ -124,7 +127,10 @@ class BugsController < ApplicationController
     end
 
     if params[:bug][:status] != @bug.status
-      bh = BugHistory.new(:bug_id=>@bug.id, :status => params[:bug][:status])
+      bh = BugHistory.new(:bug_id=>@bug.id,
+        :status => params[:bug][:status],
+        :update_by_id=>session[:user_id]
+      )
       bh.save
     end
 

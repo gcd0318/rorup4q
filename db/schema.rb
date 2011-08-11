@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110810010548) do
+ActiveRecord::Schema.define(:version => 20110811064527) do
 
   create_table "attachments", :force => true do |t|
     t.string   "name"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(:version => 20110810010548) do
     t.string   "status"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "update_by_id"
   end
 
   create_table "bug_xrefs", :id => false, :force => true do |t|
@@ -179,6 +180,7 @@ ActiveRecord::Schema.define(:version => 20110810010548) do
     t.integer  "track_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "repository_path"
   end
 
   create_table "users", :force => true do |t|

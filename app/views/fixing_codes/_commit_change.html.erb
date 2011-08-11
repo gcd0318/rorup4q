@@ -1,5 +1,32 @@
 <% if @remote_repo %>
-  <%= @remote_repo.name %>
-  Select Local Repository Path:
+  <%= @remote_repo.name %> is selected.<br />
+  <%= form_tag :action=>'show_diffs' do %>
+    <%= hidden_field_tag :remote_repo_id, @remote_repo.id %>
+    <%= hidden_field_tag :bug_id, @bug.id %>
+    Local Repository Path:
+    <%= text_field_tag :local_repo_path %>
+    <%= submit_tag 'Show Diff' %>
+  <% end %>
+<% else %>
+  <%= label_tag 'No Repository Selected' %>
 <% end %>
+  or<br />
+  Select File to Be Replace:<br />
+  <% if ! @filepath %>
+    <% @root_path = @repo.filepath %>
+    <% @filepath = '' %>
+    <% @parent_path = '' %>
+    <% @sub_folders = Array.new %>
+    <% @sub_files = Array.new %>
+    <% Dir.glob(@root_path+'*').each do |sf| %>
+      <% if File.directory? sf %>
+        <% @sub_folders << sf.gsub(@root_path, '')+'/' %>
+      <% elsif File.file? sf %>
+        <% @sub_files << sf.gsub(@root_path, '')+'/' %>
+      <% end %>
+    <% end %>
+  <% end %>
+  <% @sub_folders.sort! %>
+  <% @sub_files.sort! %>
+  <%= render 'fixing_codes/select_file' %>
 

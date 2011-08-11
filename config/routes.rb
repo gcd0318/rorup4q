@@ -6,7 +6,9 @@ Rorup4t::Application.routes.draw do
   match "fixing_code/select_a_file" => "fixing_codes#select_a_file"
   match "fixing_code/re_select" => "fixing_codes#re_select"
   match "fixing_code/replace_file" => "fixing_codes#replace_file"
-  match "fixing_code/commit_change" => "fixing_codes#commit_change"
+  match "fixing_code/to_commit" => "fixing_codes#to_commit"
+  match "fixing_code/show_diffs" => "fixing_codes#show_diffs"
+  match "fixing_code/commit_files" => "fixing_codes#commit_files"
 
   resources :bugs
   match "bug/attach_to_bug" => "bugs#attach_to_bug"

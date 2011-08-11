@@ -1,6 +1,8 @@
 class FixingCodesController < ApplicationController
   # GET /fixing_codes
   # GET /fixing_codes.xml
+  include Grit
+
   def index
     @fixing_codes = FixingCode.all
 
@@ -126,16 +128,25 @@ class FixingCodesController < ApplicationController
     render :action=>'bugs/fix'
   end
 
+  def show_diffs
+    @bug = Bug.find_by_id(params[:bug_id])
+    @repo = @bug.feature.component.track.main_repo
+    local_repo_git = Git.new(params[:local_repo_path])
+    @diffs = local_repo_git.wild_sh('git diff')
+    render :action=>'bugs/fix'
+#    render :action=>'show_diffs'
+  end
 
   def replace_file
   end
 
 
-  def commit_change
+  def to_commit
     @remote_repo = Repository.find_by_id(params[:remote_repo_id])
     render :partial=>'commit_change'
   end
 
-
+  def commit_files
+  end
 
 end

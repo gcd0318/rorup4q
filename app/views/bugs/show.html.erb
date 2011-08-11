@@ -20,7 +20,7 @@
 <p>
   <b>History:</b><br />
   <% @bug.bug_histories.each do |bh| %>
-    <%= bh.created_at %>:<%= bh.status %><br />
+    <%= bh.created_at %>:<%= bh.status %>:<%= bh.update_by.username %><br />
   <% end %>
 </p>
 

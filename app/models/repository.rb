@@ -1,8 +1,7 @@
 class Repository < ActiveRecord::Base
   belongs_to :track
-  require 'grit'
   include Grit
-  
+
   validate :must_be_git_path
 
   def is_main

@@ -1,35 +1,13 @@
 <%= link_to 'Bug'+@bug.id.to_s, @bug %>: <%= @bug.title %><br />
-Home Path of <%= @bug.feature.component.track.name %>: <%= @repo.filepath.split('/')[-1] %>
+<%= @bug.feature.component.track.name %>'s Main Repository Home:<%= @repo.filepath.split('/')[-1] %>
 <br />
-<% if @clicked_file %>
-  <%= form_tag '/fixing_code/replace_file' do %>
-    File to Be Replaced:<br />
-    <%= @clicked_file %>
-    <%= link_to 'Select Another File', :action=>'re_select', :bug_id=>@bug.id, :controller=>'fixing_codes' %>
-    <br />
-    Select File to Upload: <%= file_field_tag :fix_file %>
-    <%= hidden_field_tag :message, 'to fix '+@bug.id.to_s %>
+<% if (! @diffs) && (! @clicked_file) %>
+  <%= form_tag :action=>'show_diffs', :controller=>'fixing_codes' do %>
     <%= hidden_field_tag :bug_id, @bug.id %>
-    <%= hidden_field_tag :orig_file, @clicked_file %>
-    <br />
-    <%= submit_tag 'Upload' %>
+    Local Repository Path:
+    <%= text_field_tag :local_repo_path %>
+    <%= submit_tag 'Show Diff' %>
   <% end %>
-<% else %>
-  To Fix:<br />
-  Select remote repository to upload:<br />
-  <%= select_tag :remote_repo_id,
-    options_for_select(@bug.feature.component.track.repositories.collect{|r| [r.name, r.id]}),
-    :include_blank=>true,
-    :onclick => remote_function(
-      :update => 'commit_change',
-      :method => "get",
-      :with => "Form.Element.serialize(this)",
-      :url => { :controller => :fixing_codes, :action => :commit_change})
-  %><br />
-  <div id="commit_change">
-    <%= label_tag 'Repository to Modify:' %>:
-  </div>
-  <br />
   or<br />
   Select File to Be Replace:<br />
   <% if ! @filepath %>
@@ -42,11 +20,30 @@ Home Path of <%= @bug.feature.component.track.name %>: <%= @repo.filepath.split(
       <% if File.directory? sf %>
         <% @sub_folders << sf.gsub(@root_path, '')+'/' %>
       <% elsif File.file? sf %>
-        <% @sub_files << sf.gsub(@root_path, '')+'/' %>
+        <% @sub_files << sf.gsub(@root_path, '') %>
       <% end %>
     <% end %>
   <% end %>
   <% @sub_folders.sort! %>
   <% @sub_files.sort! %>
-  <%= render 'bugs/select_file' %>
+  <%= render 'fixing_codes/select_file' %>
+<% elsif @diffs %>
+  <% @diffs.each do |diff| %>
+    <%= diff %>
+  <% end %><br />
+  <%= link_to 'Commit checked files', :action=>'commit_files' %> |
+  <%= link_to 'Cancel', :action=>'fix', :bug_id=>@bug.id, :controller=>'bugs' %>
+<% elsif @clicked_file  %>
+  <%= form_tag '/fixing_code/replace_file' do %>
+    File to Be Replaced:<br />
+    <%= @clicked_file %>
+    <%= link_to 'Select Another File', :action=>'re_select', :bug_id=>@bug.id, :controller=>'fixing_codes' %>
+    <br />
+    Select File to Upload: <%= file_field_tag :fix_file %>
+    <%= hidden_field_tag :message, 'to fix '+@bug.id.to_s %>
+    <%= hidden_field_tag :bug_id, @bug.id %>
+    <%= hidden_field_tag :orig_file, @clicked_file %>
+    <br />
+    <%= submit_tag 'Upload' %>
+  <% end %>
 <% end %>
