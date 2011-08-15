@@ -134,7 +134,10 @@ class FixingCodesController < ApplicationController
     if params[:local_repo_path] != ''
       local_repo = Repo.new(params[:local_repo_path])
       remote_repo = Repo.new(@repo.filepath)
-      @diffs = local_repo.commit_deltas_from(remote_repo).first.diffs
+      @diffs = Array.new
+      local_repo.commit_deltas_from(remote_repo).each do |c|
+        @diffs = @diffs + c.diffs
+      end
     else
       @diffs = nil
     end
