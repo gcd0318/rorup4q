@@ -136,7 +136,9 @@ class FixingCodesController < ApplicationController
       remote_repo = Repo.new(@repo.filepath)
       @diffs = Array.new
       local_repo.commit_deltas_from(remote_repo).each do |c|
-        @diffs = @diffs + c.diffs
+        c.diffs.each do |d|
+          @diffs << d
+        end
       end
     else
       @diffs = nil
