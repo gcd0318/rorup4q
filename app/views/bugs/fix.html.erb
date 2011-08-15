@@ -6,10 +6,11 @@
     <%= hidden_field_tag :bug_id, @bug.id %>
     Local Repository Path:
     <%= text_field_tag :local_repo_path %>
-    <%= submit_tag 'Show Diff' %>
+    <%= submit_tag 'Show Diff' %><br />
+    Please make sure your local repository is up-to-date
   <% end %>
   or<br />
-  Select File to Be Replace:<br />
+  Select file to be replaced on remote repository:<br />
   <% if ! @filepath %>
     <% @root_path = @repo.filepath %>
     <% @filepath = '' %>

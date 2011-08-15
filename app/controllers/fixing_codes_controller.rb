@@ -131,9 +131,17 @@ class FixingCodesController < ApplicationController
   def show_diffs
     @bug = Bug.find_by_id(params[:bug_id])
     @repo = @bug.feature.component.track.main_repo
-    local_repo_git = Git.new(params[:local_repo_path])
-    @diffs = local_repo_git.wild_sh('git diff')
-    render :action=>'bugs/fix'
+    if params[:local_repo_path] != ''
+      local_repo = Repo.new(params[:local_repo_path])
+      remote_repo = Repo.new(@repo.filepath)
+      remote_repo.commit_deltas_from(local_repo).each do |c|
+        p c.committed_date
+      end
+      @diffs = local_repo_git.wild_sh('git diff')
+    else
+      @diffs = nil
+    end
+      render :action=>'bugs/fix'
 #    render :action=>'show_diffs'
   end
 
