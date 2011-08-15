@@ -134,9 +134,7 @@ class FixingCodesController < ApplicationController
     if params[:local_repo_path] != ''
       local_repo = Repo.new(params[:local_repo_path])
       remote_repo = Repo.new(@repo.filepath)
-      remote_repo.commit_deltas_from(local_repo).each do |c|
-        p c.committed_date
-      end
+      local_repo.commit_deltas_from(remote_repo).first
       @diffs = local_repo_git.wild_sh('git diff')
     else
       @diffs = nil
