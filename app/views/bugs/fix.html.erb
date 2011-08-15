@@ -31,9 +31,9 @@
 <% elsif @diffs %>
   <% @diffs.each do |diff| %>
     <% if diff.new_file %>
-      <%= diff.b_path %><br />
-    <% elsif diff.deleted_file %>
       <%= diff.a_path %><br />
+    <% elsif diff.deleted_file %>
+      <%= diff.b_path %><br />
     <% else %>
       <%= diff.a_path %><br />
       <%= diff.diff %><br />
