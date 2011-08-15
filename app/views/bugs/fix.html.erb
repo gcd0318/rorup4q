@@ -30,6 +30,7 @@
   <%= render 'fixing_codes/select_file' %>
 <% elsif @diffs %>
   <% @diffs.each do |diff| %>
+    <% p diff %>
     <%= diff %>
   <% end %><br />
   <%= link_to 'Commit checked files', :action=>'commit_files' %> |
