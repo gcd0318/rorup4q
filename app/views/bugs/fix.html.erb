@@ -30,8 +30,15 @@
   <%= render 'fixing_codes/select_file' %>
 <% elsif @diffs %>
   <% @diffs.each do |diff| %>
-    <% p diff %>
-    <%= diff %>
+    <% if diff.new_file %>
+      <%= diff.a_path %><br />
+    <% elsif diff.deleted_file %>
+      <%= diff.b_path %><br />
+    <% else %>
+      <%= diff.a_path %><br />
+      <%= diff.diff %><br />
+    <% end %>
+--------------------------------------<br />
   <% end %><br />
   <%= link_to 'Commit checked files', :action=>'commit_files' %> |
   <%= link_to 'Cancel', :action=>'fix', :bug_id=>@bug.id, :controller=>'bugs' %>
