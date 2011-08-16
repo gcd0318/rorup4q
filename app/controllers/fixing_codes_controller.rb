@@ -1,3 +1,5 @@
+require_dependency 'codemgr'
+include Codemgr
 class FixingCodesController < ApplicationController
   # GET /fixing_codes
   # GET /fixing_codes.xml
@@ -131,10 +133,8 @@ class FixingCodesController < ApplicationController
     @bug = Bug.find_by_id(params[:bug_id])
     @repo = @bug.feature.component.track.main_repo
     if params[:local_repo_path] != ''
-      local_repo = Codemgr.new(params[:local_repo_path], @repo.mgr_type)
-      remote_repo = Codemgr.new(@repo.filepath, @repo.mgr_type)
-      p local_repo.mgr_type
-      p remote_repo.mgr_type
+      local_repo = CodeManager.new(params[:local_repo_path], @repo.mgr_type)
+      remote_repo = CodeManager.new(@repo.filepath, @repo.mgr_type)
       @diffs = Array.new
       remote_repo.commits_diffs(local_repo).each do |c|
         c.diffs.each do |d|
