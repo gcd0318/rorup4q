@@ -30,6 +30,7 @@
   <%= render 'fixing_codes/select_file' %>
 <% elsif @diffs %>
   <% @diffs.each do |diff| %>
+    <% p diff.deleted_file %>
     <% if diff.new_file %>
       Add: <%= diff.a_path %><br />
     <% elsif diff.deleted_file %>

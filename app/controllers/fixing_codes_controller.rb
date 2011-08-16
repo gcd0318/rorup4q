@@ -1,8 +1,7 @@
 class FixingCodesController < ApplicationController
   # GET /fixing_codes
   # GET /fixing_codes.xml
-  include Grit
-
+  
   def index
     @fixing_codes = FixingCode.all
 
@@ -132,20 +131,12 @@ class FixingCodesController < ApplicationController
     @bug = Bug.find_by_id(params[:bug_id])
     @repo = @bug.feature.component.track.main_repo
     if params[:local_repo_path] != ''
-      local_repo = Repo.new(params[:local_repo_path])
-      remote_repo = Repo.new(@repo.filepath)
+      local_repo = Codemgr.new(params[:local_repo_path], @repo.mgr_type)
+      remote_repo = Codemgr.new(@repo.filepath, @repo.mgr_type)
+      p local_repo.mgr_type
+      p remote_repo.mgr_type
       @diffs = Array.new
-      remote_repo.commits.each do |c|
-        c.diffs.each do |d|
-          p d.deleted_file
-        end
-      end
-      local_repo.commits.each do |c|
-        c.diffs.each do |d|
-          p d.deleted_file
-        end
-      end
-      remote_repo.commit_deltas_from(local_repo).each do |c|
+      remote_repo.commits_diffs(local_repo).each do |c|
         c.diffs.each do |d|
           @diffs << d
         end

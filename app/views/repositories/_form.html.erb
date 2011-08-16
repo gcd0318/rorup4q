@@ -27,6 +27,10 @@
     <%= f.select(:lr_flag, options_for_select(lrArray, @repository.lr_flag)) %>
   </div>
   <div class="field">
+    <%= f.label 'Manager Type' %>: <% mtArray = ['git', 'svn', 'cvs'] %>
+    <%= f.select(:mgr_type, options_for_select(mtArray, @repository.mgr_type)) %>
+  </div>
+  <div class="field">
     <%= f.label :filepath %>: <%= f.text_field :filepath %>
   </div>
   <div class="actions">
