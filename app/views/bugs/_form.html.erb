@@ -27,9 +27,6 @@
   </div>
 
 
-
-
-
 <% if @bug.feature_id %>
   <%= f.hidden_field :feature_id, :value => @bug.feature_id %>
   Feature: <%= link_to @bug.feature.component.track.product.name, @bug.feature.component.track.product %> > <%= link_to @bug.feature.component.track.name, @bug.feature.component.track %> > <%= link_to @bug.feature.component.name, @bug.feature.component %> > <%= link_to @bug.feature.name, @bug.feature %><br />

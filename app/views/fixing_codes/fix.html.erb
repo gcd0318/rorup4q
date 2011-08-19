@@ -1,0 +1,63 @@
+<%= link_to 'Bug'+@bug.id.to_s, @bug %>: <%= @bug.title %><br />
+<%= @bug.feature.component.track.name %>'s Main Repository Home:<%= @repo.filepath.split('/')[-1] %>
+<br />
+<% if (! @diffs) && (! @clicked_file) %>
+  <%= form_tag :action=>'show_diffs', :controller=>'fixing_codes' do %>
+    <%= hidden_field_tag :bug_id, @bug.id %>
+    Local Repository Path:
+    <%= text_field_tag :local_repo_path %>
+    <%= submit_tag 'Show Diff' %><br />
+    Please make sure your local repository is up-to-date
+  <% end %>
+  or<br />
+  Select file to be replaced on remote repository:<br />
+  <% if ! @filepath %>
+    <% @root_path = @repo.filepath %>
+    <% @filepath = '' %>
+    <% @parent_path = '' %>
+    <% @sub_folders = Array.new %>
+    <% @sub_files = Array.new %>
+    <% Dir.glob(@root_path+'*').each do |sf| %>
+      <% if File.directory? sf %>
+        <% @sub_folders << sf.gsub(@root_path, '')+'/' %>
+      <% elsif File.file? sf %>
+        <% @sub_files << sf.gsub(@root_path, '') %>
+      <% end %>
+    <% end %>
+  <% end %>
+  <% @sub_folders.sort! %>
+  <% @sub_files.sort! %>
+  <%= render 'fixing_codes/select_file' %>
+<% elsif @diffs %>
+  <% @diffs.each do |diff| %>
+    <% p diff.deleted_file %>
+    <% if diff.new_file %>
+      Add: <%= diff.a_path %><br />
+    <% elsif diff.deleted_file %>
+      Delete: <%= diff.b_path %><br />
+    <% else %>
+      Modified: <%= check_box_tag("checked_files[]", diff.a_path) %>
+      <%= link_to diff.a_path, :controller=>'fixing_codes', :action=>'show_diff_details', :update=>'diff_details' %><br />
+      <div id='diff_details'>
+        <%= render :partial => "diff_details", :locals => { :a_diff => diff } %>
+      </div>
+      <br />
+    <% end %>
+--------------------------------------<br />
+  <% end %><br />
+  <%= link_to 'Commit checked files', :action=>'commit_files' %> |
+  <%= link_to 'Cancel', :action=>'fix', :bug_id=>@bug.id, :controller=>'bugs' %>
+<% elsif @clicked_file  %>
+  <%= form_tag '/fixing_code/replace_file' do %>
+    File to Be Replaced:<br />
+    <%= @clicked_file %>
+    <%= link_to 'Select Another File', :action=>'re_select', :bug_id=>@bug.id, :controller=>'fixing_codes' %>
+    <br />
+    Select File to Upload: <%= file_field_tag :fix_file %>
+    <%= hidden_field_tag :message, 'to fix '+@bug.id.to_s %>
+    <%= hidden_field_tag :bug_id, @bug.id %>
+    <%= hidden_field_tag :orig_file, @clicked_file %>
+    <br />
+    <%= submit_tag 'Upload' %>
+  <% end %>
+<% end %>

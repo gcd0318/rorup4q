@@ -114,19 +114,19 @@ class FixingCodesController < ApplicationController
         @sub_files << sf.gsub(real_path,'')
       end
     end
-    render :action=>'bugs/fix'
+    render :action=>'fix'
   end
   def select_a_file
     @bug = Bug.find_by_id(params[:bug_id])
     @repo = @bug.feature.component.track.main_repo
     @clicked_file = @repo.filepath + params[:filepath]
-    render :action=>'bugs/fix'
+    render :action=>'fix'
   end
   def re_select
     @bug = Bug.find_by_id(params[:bug_id])
     @repo = @bug.feature.component.track.main_repo
     @clicked_file =nil
-    render :action=>'bugs/fix'
+    render :action=>'fix'
   end
 
   def show_diffs
@@ -144,11 +144,16 @@ class FixingCodesController < ApplicationController
     else
       @diffs = nil
     end
-      render :action=>'bugs/fix'
+      render :action=>'fix'
 #    render :action=>'show_diffs'
   end
 
   def replace_file
+  end
+  
+  def show_diff_details
+    @show_diff_details = true
+    render :partial => "diff_details"
   end
 
 

@@ -314,7 +314,7 @@ class BugsController < ApplicationController
   def fix
     @bug = Bug.find_by_id(params[:bug_id])
     @repo = @bug.feature.component.track.main_repo
-    render :action => 'fix'
+    render :action => 'fixing_codes/fix'
   end
 
 end
