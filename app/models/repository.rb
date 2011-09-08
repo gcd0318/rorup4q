@@ -16,7 +16,7 @@ class Repository < ActiveRecord::Base
     commits_arr = Array.new
     repo = Repo.new(self.filepath)
     repo.commits.each do |c|
-      if c.message.include? s
+      if c.message.include? 'bug'+s
         commits_arr << c
       end
     end
