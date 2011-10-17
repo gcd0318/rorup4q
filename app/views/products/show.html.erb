@@ -1,6 +1,7 @@
 <p id="notice"><%= notice %></p>
 
 <% session[:product_id] = @product.id %>
+<% session[:condHash][:product_id] = @product.id %>
 
 <p>
   <b>Name:</b>
@@ -35,5 +36,8 @@
   <% end %>
 </p>
 
+<p>
+  <b> Bugs:</b> <%= link_to @product.all_bug_ids.count, :controller=>'bugs', :bug_ids=>@product.all_bug_ids, :product_id => @product.id, :action=>'bugs_of_product' %>
+</p>
 
 <%= link_to 'Edit', edit_product_path(@product) %>

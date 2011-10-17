@@ -40,8 +40,11 @@
 </p>
 
 <p>
-  <b>Build:</b>
-  <%= @bug.build.name if @bug.build %>
+  <b>Build:</b><br />
+  Opened on <%= link_to @bug.open_build.name, @bug.open_build %>
+  <% if @bug.status == 'CLOSED' %>
+    Closes on <%= link_to @bug.close_build.name, @bug.close_build %>
+  <% end %>
 </p>
 
 <p>

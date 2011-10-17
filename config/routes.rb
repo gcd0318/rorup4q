@@ -24,6 +24,7 @@ Rorup4t::Application.routes.draw do
   match 'bug/show_commits' => 'bugs#show_commits'
   match 'bug/hide_commits' => 'bugs#hide_commits'
   match 'bug/fix' => 'bugs#fix'
+  match 'bug/bugs_of_product' => 'bugs#bugs_of_product'
     
   resources :repositories
   match 'repository/show_detail' => 'repositories#show_detail'

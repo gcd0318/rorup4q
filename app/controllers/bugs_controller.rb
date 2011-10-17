@@ -310,11 +310,23 @@ class BugsController < ApplicationController
     render :action => 'show'
   end
 
-
   def fix
     @bug = Bug.find_by_id(params[:bug_id])
     @repo = @bug.feature.component.track.main_repo
     render :action => 'fixing_codes/fix'
+  end
+  
+  def bugs_of_product
+    @product = Product.find_by_id(params[:product_id])
+    @bugs = Array.new
+    params[:bug_ids].each do |bug_id|
+      @bugs << Bug.find_by_id(bug_id)
+    end
+    @bugs = @bugs.sort_by { |bug| bug.id }
+    respond_to do |format|
+      format.html # index.html.erb
+      format.xml  { render :xml => @bugs }
+    end
   end
 
 end

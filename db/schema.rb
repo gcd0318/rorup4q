@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110816061432) do
+ActiveRecord::Schema.define(:version => 20111017063437) do
 
   create_table "attachments", :force => true do |t|
     t.string   "name"
@@ -21,6 +21,13 @@ ActiveRecord::Schema.define(:version => 20110816061432) do
     t.string   "filepath"
     t.integer  "bug_id"
     t.integer  "testcase_id"
+  end
+
+  create_table "bug_build_xrefs", :force => true do |t|
+    t.integer  "bug_id"
+    t.integer  "build_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "bug_histories", :force => true do |t|
@@ -42,14 +49,14 @@ ActiveRecord::Schema.define(:version => 20110816061432) do
     t.string   "title"
     t.string   "body"
     t.integer  "reporter_id"
-    t.string   "status",       :default => "OPEN", :null => false
+    t.string   "status",          :default => "OPEN", :null => false
     t.integer  "feature_id"
     t.string   "bug_type"
-    t.integer  "build_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "severity",     :default => "MID"
+    t.string   "severity",        :default => "MID"
     t.integer  "assign_to_id"
+    t.integer  "latest_build_id"
   end
 
   create_table "builds", :force => true do |t|
@@ -58,6 +65,7 @@ ActiveRecord::Schema.define(:version => 20110816061432) do
     t.integer  "track_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "status"
   end
 
   create_table "components", :force => true do |t|

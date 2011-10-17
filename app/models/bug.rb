@@ -8,11 +8,12 @@ class Bug < ActiveRecord::Base
   has_many :attachments
   belongs_to :reporter, :class_name => "User", :foreign_key => 'reporter_id'
   belongs_to :feature
-  belongs_to :build
+  belongs_to :latest_build, :class_name => 'Build'
   belongs_to :assign_to, :class_name => 'User', :foreign_key => 'assign_to_id'
-
   has_many :from_xrefs, :class_name => "BugXref", :foreign_key => :to_bug_id
   has_many :to_xrefs, :class_name => "BugXref", :foreign_key => :from_bug_id
+  belongs_to :open_build, :class_name=>"Build"
+  belongs_to :close_build, :class_name=>"Build"
   
   validates_presence_of :title
   validates_presence_of :body

@@ -1,4 +1,4 @@
-<h1>Listing bugs</h1>
+<h1>Listing bugs of <%= link_to @product.name, @product %> </h1>
 
 <table>
   <tr>
@@ -29,6 +29,8 @@
 </table>
 
 <br />
-
-<%= link_to 'OPEN bugs', :controller=>'bugs', :status=>'OPEN', :action=>'filter' %>
-<%= link_to 'Report a new bug', new_bug_path %>
+<%= link_to 'Report a new bug', new_bug_path %><br />
+Filters:<br />
+<%= link_to 'My OPEN bugs', :status=>'OPEN', :reporter_id=>session[:user_id], :action=>'filter' %><br />
+<%= link_to 'My FIXED bugs', :status=>'FIXED', :reporter_id=>session[:user_id], :action=>'filter' %><br />
+<%= link_to 'All my bugs', :reporter_id=>session[:user_id], :action=>'filter' %>

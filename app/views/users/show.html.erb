@@ -9,16 +9,16 @@
 </p>
 <% if @user.id == session[:user_id] %>
   <p>
+    <b>Owned Products:</b>
+    <%= link_to @user.owned_products.count, :controller=>'products', :owner_id=>@user.id, :action=>'filter' %>
+  </p>
+  <p>
     <b>Owned Cases:</b>
     <%= link_to @user.testcases.count, :controller=>'testcases', :owner_id=>@user.id, :action=>'filter' %>
   </p>
   <p>
     <b>Assigned Cases:</b>
     <%= link_to @user.assigned_testcases.count, :controller=>'testcases', :assign_to_id=>@user.id, :action=>'filter' %>
-  </p>
-  <p>
-    <b>Owned Products:</b>
-    <%= link_to @user.owned_products.count, :controller=>'products', :owner_id=>@user.id, :action=>'filter' %>
   </p>
   <p>
     <b>Reported Bugs:</b>

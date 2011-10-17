@@ -16,12 +16,13 @@
   <div id="columns">
     <div id="side">
     <% if session[:user_id] %>
-      <br />
+      <p align="right" >
+      Welcome <%= link_to User.find_by_id(session[:user_id]).username, User.find_by_id(session[:user_id]) %>
+      <%= link_to 'Logout', logout_path, :method => :delete %>
+      </p>
       <%= link_to 'Users', users_path %><br />
       <%= link_to 'Products', products_path %><br />
       <%= link_to 'Bugs', bugs_path %><br />
-      <br />
-      <%= button_to 'Logout', logout_path, :method => :delete %>
     <% end %>
     </div>
     <div id="main">

@@ -42,7 +42,7 @@
 
 
   <div class="field">
-    <%= f.label :build %>: <%= collection_select(:bug, :build_id, Build.all, :id, :name, :prompt => true) %>
+    <%= f.label :build %>: <%= collection_select(:bug, :open_build_id, Build.all, :id, :name, :prompt => true) %>
   </div>
   <div class="field">
     <%= f.label :"Relative bugs" %><br />

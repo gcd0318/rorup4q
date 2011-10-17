@@ -6,4 +6,5 @@ class Track < ActiveRecord::Base
   has_many :components
   has_many :repositories
   belongs_to :main_repo, :class_name => "Repository", :foreign_key => 'main_repo_id'
+  has_many :builds
 end
