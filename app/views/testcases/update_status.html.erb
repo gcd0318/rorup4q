@@ -1,0 +1,31 @@
+<h1>Updating status</h1>
+
+<%= link_to @testcase.feature.component.track.product.name, @testcase.feature.component.track.product %> > <%= link_to @testcase.feature.component.track.name, @testcase.feature.component.track %> > <%= link_to @testcase.feature.component.name, @testcase.feature.component %> > <%= link_to @testcase.feature.name, @testcase.feature %>
+
+<p>
+<b>Title:</b>
+<%= @testcase.title %><br />
+<b>Owner: </b >
+<%= link_to @testcase.owner.username, @testcase.owner %><br />
+<b>Tester</b>
+<%= link_to User.find(session[:user_id]).username, User.find(session[:user_id]) %><br />
+</p>
+<%= form_tag '/testcase/link_to_bug', :method=>'get' do %>
+  <b>Status:</b>
+  <% statusArray = ['BLOCK','DONE','FAIL','UNDO','ONGO'] %>
+  <%= select_tag :status, options_for_select(statusArray, @status) %><br />
+  <%= hidden_field_tag :id,  @testcase.id %>
+  <b>Associate to Bug:</b>
+  <%= text_field_tag :bug_id %>
+  <%= submit_tag 'Associate'%>
+<% end %>
+<% xrefs = TestcaseBugXref.where(:testcase_id=>@testcase.id) %>
+<% if xrefs %>
+  <% xrefs.each do |x| %>
+    <%= link_to x.bug.title, x.bug %>
+    <%= x.bug.status %>
+    <%= link_to 'No relate', :action=>'no_relate', :testcase_id=>x.testcase_id, :bug_id=>x.bug_id %><br />
+  <% end %>
+  <%= link_to 'Save', :action=>"save_status", :id=>@testcase.id, :status=>@status %>
+<% end %>
+<%= link_to 'Cancel', @testcase %>

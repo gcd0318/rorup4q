@@ -1,0 +1,5 @@
+<h1>Welcome</h1>
+It's <%= Time.now %><br />
+Using <%= link_to pluralize(@total_products, "product" ), products_path() %> as place holder of stats.
+
+<%= collection_select(:stat, Product.all, :id, :name, :prompt => true) %>

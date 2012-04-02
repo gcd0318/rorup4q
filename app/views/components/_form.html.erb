@@ -24,6 +24,12 @@
     <%= collection_select(:component, :owner_id, @component.track.users, :id, :username, :prompt => true) %>
   </div>
 
+  <div class="field">
+    <%= f.label :features %>:<br />
+    <% @component.features.each do |f| %>
+      <%= link_to f.name, f %><br />
+    <% end %>
+  </div>
 
   <div class="field">
     <%= f.label :"Select members" %>:<br />

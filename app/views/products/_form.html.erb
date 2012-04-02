@@ -19,6 +19,7 @@
     <%= f.label :desc %>:
     <%= f.text_field :desc %>
   </div>
+
   <div class="field">
     <%= f.label :Owner %>:
     <% if ! @product.owner %>
@@ -32,7 +33,7 @@
     <% User.all.each do |u| -%>
       <%= check_box_tag("user_ids[]", u.id, @product.users.include?(u)) %>
       <%= label_tag('', u.username) %>
-    <% end -%>
+    <% end %>
   </div>
   <div class="actions">
     <%= f.submit %>

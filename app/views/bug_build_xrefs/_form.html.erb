@@ -1,0 +1,25 @@
+<%= form_for(@bug_build_xref) do |f| %>
+  <% if @bug_build_xref.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@bug_build_xref.errors.count, "error") %> prohibited this bug_build_xref from being saved:</h2>
+
+      <ul>
+      <% @bug_build_xref.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :bug_id %><br />
+    <%= f.text_field :bug_id %>
+  </div>
+  <div class="field">
+    <%= f.label :build_id %><br />
+    <%= f.text_field :build_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

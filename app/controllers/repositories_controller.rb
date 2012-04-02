@@ -122,7 +122,7 @@ class RepositoriesController < ApplicationController
       path = repo.filepath +'/'+ path
     end
     if ! path.end_with? '/'
-      path = path + '/'
+      oath = path + '/'
     end
     subs = Dir.glob(path+'*')
     sub_folders = Array.new
@@ -138,7 +138,7 @@ class RepositoriesController < ApplicationController
       path = repo.filepath +'/'+ path
     end
     if ! path.end_with? '/'
-      path = path + '/'
+      oath = path + '/'
     end
     subs = Dir.glob(path+'*')
     sub_files = Array.new
@@ -167,7 +167,7 @@ class RepositoriesController < ApplicationController
     @bug = Bug.find_by_id(params[:bug_id])
     @commit = repo.get_commit_by_id(params[:c])
     @earlier_commits = repo.earlier_commits(@commit)
-    @diffs = repo.commits_diff(repo.get_commit_by_id(params[:c]), repo.get_commit_by_id(params[:earlier_commit]))
+    @diff = repo.commits_diff(repo.get_commit_by_id(params[:c]), repo.get_commit_by_id(params[:earlier_commit]))
     render :action => "show_commit"
   end
 

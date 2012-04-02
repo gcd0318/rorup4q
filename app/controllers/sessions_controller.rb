@@ -17,6 +17,7 @@ class SessionsController < ApplicationController
   def destroy
     session[:condHash] = nil
     session[:user_id] = nil
+    session[:product_id] = nil
     redirect_to admin_url, :notice => "Logged out"
   end
 

@@ -1,4 +1,6 @@
-Rorup4t::Application.routes.draw do
+Rorup4q::Application.routes.draw do
+  resources :bug_build_xrefs
+
   resources :bug_histories
 
   resources :fixing_codes
@@ -24,7 +26,6 @@ Rorup4t::Application.routes.draw do
   match 'bug/show_commits' => 'bugs#show_commits'
   match 'bug/hide_commits' => 'bugs#hide_commits'
   match 'bug/fix' => 'bugs#fix'
-  match 'bug/bugs_of_product' => 'bugs#bugs_of_product'
     
   resources :repositories
   match 'repository/show_detail' => 'repositories#show_detail'
@@ -57,6 +58,7 @@ Rorup4t::Application.routes.draw do
   resources :testcases
   match "testcase/add_link" => "testcases#add_link"
   match "testcase/remove_link" => "testcases#remove_link"
+  match "testcase/update_status" => "testcases#update_status"
   match "testcase/save_status" => "testcases#save_status"
   match "testcase/no_relate" => "testcases#no_relate"
   match "testcase/filter" => "testcases#filter"
@@ -146,4 +148,5 @@ Rorup4t::Application.routes.draw do
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id(.:format)))'
+  get 'stats' => 'stats#index'
 end

@@ -15,29 +15,18 @@
   <br />
 <% end %>
 
-<%= form_tag '/testcase/save_status', :method=>'get' do %>
-  <%= hidden_field_tag :id,  @testcase.id %><br />
+<%= form_tag '/testcase/update_status', :method=>'get' do %>
+  <%= hidden_field_tag :id,  @testcase.id %>
   <b>Status:</b>
   <% statusArray = ['BLOCK','DONE','FAIL','UNDO','ONGO'] %>
-  <%= select_tag :status,
-    options_for_select(statusArray, @testcase.status),
-    :onchange => remote_function(
-    :update => "selected_status",
-    :method => "get",
-    :with => "Form.Element.serialize(this)",
-    :url => { :controller => :testcases, :action => :bug_links, :id=>@testcase.id })
-  %>
-  <div id="selected_status">
-    <%= render 'bug_link' %>
-  </div>
-
-  <%= submit_tag 'Save Status'%><br />
-
+  <%= select_tag :status, options_for_select(statusArray, @testcase.status) %><br />
+  <%= submit_tag 'Update Status' %><br />
 <% end %>
+
 <% TestcaseBugXref.where(:testcase_id=>@testcase.id).each do |xref| %>
   <br />
   <%= link_to xref.bug.title, xref.bug %>
-  <%= link_to 'no relate', :action=>"no_relate", :testcase_id=>@testcase.id, :bug_id=>xref.bug_id %>
+  <%= xref.bug.status %>
 <% end %>
 <br />
 

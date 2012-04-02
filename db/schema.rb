@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111017063437) do
+ActiveRecord::Schema.define(:version => 20120313082914) do
 
   create_table "attachments", :force => true do |t|
     t.string   "name"
@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(:version => 20111017063437) do
     t.integer  "testcase_id"
   end
 
-  create_table "bug_build_xrefs", :force => true do |t|
+  create_table "bug_build_xrefs", :id => false, :force => true do |t|
     t.integer  "bug_id"
     t.integer  "build_id"
     t.datetime "created_at"
@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(:version => 20111017063437) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "update_by_id"
+    t.string   "comments"
   end
 
   create_table "bug_xrefs", :id => false, :force => true do |t|
@@ -49,23 +50,23 @@ ActiveRecord::Schema.define(:version => 20111017063437) do
     t.string   "title"
     t.string   "body"
     t.integer  "reporter_id"
-    t.string   "status",          :default => "OPEN", :null => false
+    t.string   "status",        :default => "OPEN"
     t.integer  "feature_id"
     t.string   "bug_type"
+    t.integer  "build_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "severity",        :default => "MID"
+    t.string   "severity",      :default => "MID"
     t.integer  "assign_to_id"
-    t.integer  "latest_build_id"
+    t.integer  "this_build_id"
   end
 
   create_table "builds", :force => true do |t|
     t.string   "name"
-    t.time     "build_date", :default => '2000-01-01 08:08:45'
+    t.time     "build_date", :default => '2000-01-01 16:13:45'
     t.integer  "track_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "status"
   end
 
   create_table "components", :force => true do |t|
@@ -122,10 +123,12 @@ ActiveRecord::Schema.define(:version => 20111017063437) do
   end
 
   create_table "testcase_xrefs", :id => false, :force => true do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
     t.integer  "from_testcase_id"
     t.integer  "to_testcase_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "from_id"
+    t.integer  "to_id"
   end
 
   create_table "testcases", :force => true do |t|

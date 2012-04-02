@@ -8,8 +8,7 @@
     <th>Status</th>
     <th>Feature</th>
     <th>Bug type</th>
-    <th>Open Build</th>
-    <th>Close Build</th>
+    <th>Build</th>
     <th></th>
   </tr>
 
@@ -21,8 +20,7 @@
     <td><%= bug.status %></td>
     <td><%= link_to bug.feature.name, bug.feature %></td>
     <td><%= bug.bug_type %></td>
-    <td><%= link_to bug.open_build.name, bug.open_build %></td>
-    <td><%= link_to bug.close_build.name, bug.close_build if bug.close_build_id %></td>
+    <td><%= link_to bug.this_build.name, bug.this_build %></td>
     <td><%= link_to 'Destroy', bug, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
@@ -30,5 +28,5 @@
 
 <br />
 
-<%= link_to 'OPEN bugs', :controller=>'bugs', :status=>'OPEN', :action=>'filter' %>
+<%= link_to 'bugs to solve', :controller=>'bugs', :status=>'OPEN', :action=>'filter' %> |
 <%= link_to 'Report a new bug', new_bug_path %>

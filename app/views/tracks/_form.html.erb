@@ -24,10 +24,25 @@
     <%= collection_select(:track, :owner_id, @track.product.users, :id, :username, :prompt => true) %>
   </div>
 
-  <% if @track.repositories %>
+  <% if @track.repositories.size > 0 %>
     Select Main Repository:
-    <%= collection_select(:track, :main_repo_id, @track.repositories, :id, :name, :prompt => true) %>
+    <% repos = Array.new %>
+    <% Product.find_by_id(session[:product_id].tracks.each do |tr| %>
+      <% tr.repositories.each do |r| %>
+        <% repos << r %>
+      <% end %>
+    <% end %>
+    <%= collection_select(:track, :main_repo_id, repos, :id, :name, :prompt => true) %>
+  <% else %>
+    <%= link_to 'Create new repository', :action=>'new', :track_id=>@track.id, :controller=>'repositories' %>
   <% end %>
+
+  <div class="field">
+    <%= f.label :components %>:<br />
+    <% @track.components.each do |c| %>
+      <%= link_to c.name, c %><br />
+    <% end %>
+  </div>
 
   <div class="field">
     <%= f.label :"Select members" %>:<br />

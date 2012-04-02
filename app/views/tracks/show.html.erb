@@ -15,8 +15,13 @@
 </p>
 
 <p>
-  <b>Latest Builds:</b>
-  <% link_to @track.latest_build.name, @track.latest_build if @track.latest_build %>
+  <b>Components:</b><br />
+  <% @track.components.each do |component| %>
+    <%= link_to component.name, component %>
+    <br />
+  <% end %>
+  <% session[:track_id] = @track.id %>
+  <%= link_to 'New Component', new_component_path %>
 </p>
 
 <p>
@@ -25,16 +30,6 @@
     <%= link_to user.username, user %>
     <br />
   <% end %>
-</p>
-
-<p>
-  <b>Components:</b><br />
-  <% @track.components.each do |component| %>
-    <%= link_to component.name, component %>
-    <br />
-  <% end %>
-  <% session[:track_id] = @track.id %>
-  <%= link_to 'New Component', new_component_path %>
 </p>
 
 <p>

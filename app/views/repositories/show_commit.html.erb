@@ -25,9 +25,11 @@
 <% end %>
 
 <div id='diff'>
-  <% if @diffs %>
-    <% @diffs.each do |d| %>
-      <%= d.diff %><br />================<br />
+  <% if @diff %>
+    <%= @diff %>
+=================================
+    <% @diff.each do |d| %>
+      <%= d %><br />
     <% end %>
   <% end %>
 </div>

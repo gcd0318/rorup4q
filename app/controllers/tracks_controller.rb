@@ -105,17 +105,16 @@ class TracksController < ApplicationController
   # DELETE /tracks/1
   # DELETE /tracks/1.xml
   def destroy
-    @track = Track.find(params[:id])
+    @track = Track.find_by_id(params[:id])
+    prod = @track.product
     @track.components.each do |comp|
       comp.destroy
     end
-    UserTrackXref.where(:track_id=>params[:id]).each do |xref|
-      xref.destroy
-    end
+    UserTrackXref.delete_all("track_id="+params[:id].to_s)
     @track.destroy
 
     respond_to do |format|
-      format.html { redirect_to(tracks_url) }
+      format.html { redirect_to(prod) }
       format.xml  { head :ok }
     end
   end

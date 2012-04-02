@@ -3,6 +3,7 @@ class Repository < ActiveRecord::Base
   include Grit
 
   validate :must_be_git_path
+  validates :name, :presence => true, :uniqueness => true
 
   def is_main
     return self.track.main_repo_id == self.id

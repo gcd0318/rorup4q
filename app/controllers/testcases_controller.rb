@@ -113,42 +113,73 @@ class TestcasesController < ApplicationController
     end
   end
 
-  def save_status
+  def update_status
     @testcase = Testcase.find(params[:id])
-    if params[:status] == 'BLOCK' && TestcaseBugXref.where(:testcase_id=>params[:id]).size == 0
-      respond_to do |format|
-        format.html { redirect_to(@testcase, :notice => 'Block test case must link to at least one bug.') }
-        format.xml  { head :ok }
-      end
+    @status = params[:status]
+    if(@status == 'FAIL') || (@status == 'BLOCK')
+      render "update_status"
     else
-      @testcase[:status] = params[:status]
-      msg = ''
-      if @testcase.save
+      save_status @status
+    end
+  end
+
+  def save_status status = nil
+    if !status
+      status = params[:status]
+    end
+    @testcase = Testcase.find(params[:id])
+    @testcase[:status] = params[:status]
+    if((status == 'FAIL') || (status == 'BLOCK'))
+      tbx = TestcaseBugXref.new
+      tbx.testcase_id = params[:id]
+      if params[:bug_id]
+        tbx.bug_id = params[:bug_id]
+      else
+        @status = status
         respond_to do |format|
-          format.html { redirect_to(@testcase, :notice => 'Status was successfully updated'+msg) }
+          format.html { render :action=>"update_status", :notice => 'no bug associated' }
           format.xml  { head :ok }
         end
-      else
-        respond_to do |format|
-          format.html { redirect_to(@testcase, :notice => 'Status is not saved.') }
-          format.xml  { head :ok }
-        end  
       end
+      if tbx.save && @testcase.save
+        respond_to do |format|
+          format.html { redirect_to(@testcase, :notice => 'Status was successfully updated') }
+          format.xml  { head :ok }
+        end
+      end
+    elsif @testcase.save
+      msg = 'Status was successfully updated'
+    else
+      msg = 'Status was not updated'
+    end
+    respond_to do |format|
+      format.html { redirect_to(@testcase, :notice => msg) }
+      format.xml  { head :ok }
     end
   end
 
   def link_to_bug
     @testcase = Testcase.find(params[:id])
-    @xref = TestcaseBugXref.new
-    @xref[:testcase_id] = params[:id]
+    @bug = Bug.find_by_id(params[:bug_id])
+    xref = TestcaseBugXref.new
+    xref[:testcase_id] = params[:id]
     if params[:bug_id].size > 0
-      @xref[:bug_id] = params[:bug_id]
-      @xref.save
-      msg = ', and bug is linked.'
-      respond_to do |format|
-        format.html { redirect_to(@testcase, :notice => 'Bug is added.') }
-        format.xml  { head :ok }
+      if Bug.find_by_id(params[:bug_id])
+        xref[:bug_id] = params[:bug_id]
+        if 0 == TestcaseBugXref.where(:bug_id=>xref[:bug_id], :testcase_id=>xref[:testcase_id]).size
+          xref.save
+          msg = 'Bug is linked'
+        else
+          msg = 'linked bug'
+        end
+      else
+        msg = 'no such bug'
       end
+    end
+    @status = params[:status]
+    respond_to do |format|
+      format.html { render :action=>"update_status", :notice => msg }
+      format.xml  { head :ok }
     end
   end
 
@@ -156,7 +187,7 @@ class TestcasesController < ApplicationController
     @testcase = Testcase.find(params[:testcase_id])
     TestcaseBugXref.delete_all("testcase_id="+params[:testcase_id]+" && bug_id="+params[:bug_id])
     respond_to do |format|
-      format.html { redirect_to(@testcase, :notice => 'Bug was removed from this testcase.') }
+      format.html { render :action=>"update_status", :notice => 'release relation' }
       format.xml  { head :ok }
     end
   end

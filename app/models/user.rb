@@ -4,14 +4,16 @@ class User < ActiveRecord::Base
   has_many :owned_products, :class_name => "Product", :foreign_key => "owner_id"
   has_many :products, :through => :user_product_xrefs
   has_many :user_product_xrefs
-  has_many :track, :through => :user_track_xrefs
-  has_many :user_track_xrefs
+  has_many :tracks, :through => :user_track_xrefs
+  has_many :user_track_xrefs, :dependent => :destroy
   has_many :component, :through => :user_component_xrefs
   has_many :user_component_xrefs
   has_many :features, :through => :user_feature_xrefs
   has_many :user_feature_xrefs
   has_many :assigned_testcases, :class_name => "Testcase", :foreign_key => "assign_to_id"
   has_many :testcases, :foreign_key => 'owner_id'
+  has_many :testcases, :through => :user_testcase_xrefs
+  has_many :user_testcase_xrefs
   has_many :bugs, :through => :user_bug_xrefs
   has_many :user_bug_xrefs
   has_many :reported_bugs, :class_name => "Bug", :foreign_key => 'reporter_id'

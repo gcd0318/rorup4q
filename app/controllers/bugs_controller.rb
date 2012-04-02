@@ -58,6 +58,10 @@ class BugsController < ApplicationController
     if params[:assign_to_id]
       @bug.assign_to_id = params[:assign_to_id]
     end
+
+    if @bug.this_build_id
+      @bug.open_build_id = @bug.this_build_id
+    end
     
     respond_to do |format|
       if @attachment
@@ -119,6 +123,11 @@ class BugsController < ApplicationController
       params[:bug].delete('attachment')
     end
     
+    if params[:this_build]!=nil
+      @bug.open_build_id = params[:this_build_id]
+      @bug.this_build_id = params[:this_build_id]
+    end
+    
     if params[:to_bug_id]!=''
       bx = BugXref.new
       bx.to_bug_id = params[:to_bug_id]
@@ -141,6 +150,10 @@ class BugsController < ApplicationController
           format.xml
         end
       elsif @bug.update_attributes(params[:bug])
+        b = Build.find_by_id(params[:bug][:build_id])
+        if ! @bug.builds.include? b
+          @bug.builds << b
+        end
         format.html { redirect_to(@bug, :notice => 'Bug was successfully updated.') }
         format.xml  { head :ok }
       else
@@ -310,23 +323,11 @@ class BugsController < ApplicationController
     render :action => 'show'
   end
 
+
   def fix
     @bug = Bug.find_by_id(params[:bug_id])
     @repo = @bug.feature.component.track.main_repo
     render :action => 'fixing_codes/fix'
-  end
-  
-  def bugs_of_product
-    @product = Product.find_by_id(params[:product_id])
-    @bugs = Array.new
-    params[:bug_ids].each do |bug_id|
-      @bugs << Bug.find_by_id(bug_id)
-    end
-    @bugs = @bugs.sort_by { |bug| bug.id }
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @bugs }
-    end
   end
 
 end

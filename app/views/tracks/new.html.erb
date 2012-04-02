@@ -2,4 +2,8 @@
 
 <%= render 'form' %>
 
-<%= link_to 'Back', Product.find(session[:product_id]) %>
+<% if(session[:product_id]) %>
+  <%= link_to 'Back', Product.find(session[:product_id]) %>
+<% else %>
+  <%= link_to 'Back', tracks_path %>
+<% end %>

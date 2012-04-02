@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Bug:</b>
+  <%= @bug_build_xref.bug_id %>
+</p>
+
+<p>
+  <b>Build:</b>
+  <%= @bug_build_xref.build_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_bug_build_xref_path(@bug_build_xref) %> |
+<%= link_to 'Back', bug_build_xrefs_path %>

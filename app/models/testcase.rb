@@ -7,6 +7,8 @@ class Testcase < ActiveRecord::Base
   has_many :to_xrefs, :class_name => "TestcaseXref", :foreign_key => :from_testcase_id
   has_many :bugs, :through => :testcase_bug_xrefs
   has_many :testcase_bug_xrefs
+  has_many :executers, :class_name => 'User', :through => :user_testcase_xrefs
+  has_many :user_testcase_xrefs
 
   validates :feature_id, :presence => true
   validates_presence_of :title

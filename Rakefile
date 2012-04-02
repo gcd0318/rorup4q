@@ -4,4 +4,4 @@
 require File.expand_path('../config/application', __FILE__)
 require 'rake'
 
-Rorup4t::Application.load_tasks
+Rorup4q::Application.load_tasks
