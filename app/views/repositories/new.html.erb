@@ -2,4 +2,8 @@
 
 <%= render 'form' %>
 
-<%= link_to 'Back', repositories_path %>
+<% if(session[:track_id]) %>
+  <%= link_to 'Back', Track.find(session[:track_id]) %>
+<% else %>
+  <%= link_to 'Back', repositories_path %>
+<% end %>

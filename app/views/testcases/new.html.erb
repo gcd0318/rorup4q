@@ -2,4 +2,8 @@
 
 <%= render 'form' %>
 
-<%= link_to 'Back', testcases_path %>
+<% if(session[:feature_id]) %>
+  <%= link_to 'Back', Feature.find(session[:feature_id]), :confirm => 'Unsaved changes would lost. Are you sure?' %>
+<% else %>
+  <%= link_to 'Back', testcases_path, :confirm => 'Unsaved changes would lost. Are you sure?' %>
+<% end %>

@@ -46,6 +46,15 @@
     %>
     <br />
   <% end %>
+  Select Main Repository:
+  <% repos = Array.new %>
+  <% Product.find_by_id(session[:product_id]).tracks.each do |tr| %>
+    <% tr.repositories.each do |r| %>
+      <% repos << r %>
+    <% end %>
+  <% end %>
+  <%= collection_select(:track, :main_repo_id, repos, :id, :name, :prompt => true) %>
+  <br />
   <%= link_to 'New Repository', new_repository_path %>
 </p>
 

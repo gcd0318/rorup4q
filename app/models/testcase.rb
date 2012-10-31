@@ -13,5 +13,6 @@ class Testcase < ActiveRecord::Base
   validates :feature_id, :presence => true
   validates_presence_of :title
   validates_presence_of :body
+  validates_presence_of :owner
 
 end

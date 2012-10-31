@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
   has_many :features, :through => :user_feature_xrefs
   has_many :user_feature_xrefs
   has_many :assigned_testcases, :class_name => "Testcase", :foreign_key => "assign_to_id"
-  has_many :testcases, :foreign_key => 'owner_id'
+  has_many :owned_testcases, :foreign_key => 'owner_id', :class_name => 'Testcase'
   has_many :testcases, :through => :user_testcase_xrefs
   has_many :user_testcase_xrefs
   has_many :bugs, :through => :user_bug_xrefs

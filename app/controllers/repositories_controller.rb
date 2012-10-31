@@ -150,10 +150,6 @@ class RepositoriesController < ApplicationController
     return sub_files
   end
 
-
-
-
-
   def show_commit
     @bug = Bug.find_by_id(params[:bug_id])
     repo = @bug.feature.component.track.main_repo
@@ -163,6 +159,15 @@ class RepositoriesController < ApplicationController
   end
 
   def diff_commits
+    @repo = Repository.find_by_id(params[:id])
+    if @commit1 && @commit2
+      render :action => 'show_diff'
+    else
+      render :action => "select_commits"
+    end
+  end
+
+  def diff_commits_for_bug
     repo = Bug.find_by_id(params[:bug_id]).feature.component.track.main_repo
     @bug = Bug.find_by_id(params[:bug_id])
     @commit = repo.get_commit_by_id(params[:c])
@@ -170,6 +175,5 @@ class RepositoriesController < ApplicationController
     @diff = repo.commits_diff(repo.get_commit_by_id(params[:c]), repo.get_commit_by_id(params[:earlier_commit]))
     render :action => "show_commit"
   end
-
 
 end
