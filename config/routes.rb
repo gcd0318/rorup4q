@@ -4,34 +4,34 @@ Rorup4q::Application.routes.draw do
   resources :bug_histories
 
   resources :fixing_codes
-  match "fixing_code/get_subs" => "fixing_codes#get_subs"
-  match "fixing_code/select_a_file" => "fixing_codes#select_a_file"
-  match "fixing_code/re_select" => "fixing_codes#re_select"
-  match "fixing_code/replace_file" => "fixing_codes#replace_file"
-  match "fixing_code/to_commit" => "fixing_codes#to_commit"
-  match "fixing_code/show_diffs" => "fixing_codes#show_diffs"
-  match "fixing_code/show_diff_details" => "fixing_codes#show_diff_details"
-  match "fixing_code/commit_files" => "fixing_codes#commit_files"
+  get "fixing_code/get_subs" => "fixing_codes#get_subs"
+  get "fixing_code/select_a_file" => "fixing_codes#select_a_file"
+  get "fixing_code/re_select" => "fixing_codes#re_select"
+  get "fixing_code/replace_file" => "fixing_codes#replace_file"
+  get "fixing_code/to_commit" => "fixing_codes#to_commit"
+  get "fixing_code/show_diffs" => "fixing_codes#show_diffs"
+  get "fixing_code/show_diff_details" => "fixing_codes#show_diff_details"
+  get "fixing_code/commit_files" => "fixing_codes#commit_files"
 
   resources :bugs
-  match "bug/attach_to_bug" => "bugs#attach_to_bug"
-  match "bug/get_attach" => "bugs#get_attach"
-  match "bug/remove_attach" => "bugs#remove_attach"
-  match "bug/filter" => "bugs#filter"
-  match "bug/get_sub_items" => "bugs#get_sub_items"
-  match "bug/remove_link" => "bugs#remove_link"
-  match "bug/no_relate" => "bugs#no_relate"
-  match 'bug/link_to_testcase' => 'bugs#link_to_testcase'
-  match 'bug/change_feature' => 'bugs#change_feature'
-  match 'bug/show_commits' => 'bugs#show_commits'
-  match 'bug/hide_commits' => 'bugs#hide_commits'
-  match 'bug/fix' => 'bugs#fix'
+  get "bug/attach_to_bug" => "bugs#attach_to_bug"
+  get "bug/get_attach" => "bugs#get_attach"
+  get "bug/remove_attach" => "bugs#remove_attach"
+  get "bug/filter" => "bugs#filter"
+  get "bug/get_sub_items" => "bugs#get_sub_items"
+  get "bug/remove_link" => "bugs#remove_link"
+  get "bug/no_relate" => "bugs#no_relate"
+  get 'bug/link_to_testcase' => 'bugs#link_to_testcase'
+  get 'bug/change_feature' => 'bugs#change_feature'
+  get 'bug/show_commits' => 'bugs#show_commits'
+  get 'bug/hide_commits' => 'bugs#hide_commits'
+  get 'bug/fix' => 'bugs#fix'
     
   resources :repositories
-  match 'repository/show_detail' => 'repositories#show_detail'
-  match 'repository/hide_detail' => 'repositories#hide_detail'
-  match 'repository/show_commit' => 'repositories#show_commit'
-  match 'repository/diff_commits' => 'repositories#diff_commits'
+  get 'repository/show_detail' => 'repositories#show_detail'
+  get 'repository/hide_detail' => 'repositories#hide_detail'
+  get 'repository/show_commit' => 'repositories#show_commit'
+  get 'repository/diff_commits' => 'repositories#diff_commits'
 
   root :to => "admin#index"
 
@@ -56,17 +56,17 @@ Rorup4q::Application.routes.draw do
 #  get "sessions/destroy"
 
   resources :testcases
-  match "testcase/add_link" => "testcases#add_link"
-  match "testcase/remove_link" => "testcases#remove_link"
-  match "testcase/update_status" => "testcases#update_status"
-  match "testcase/save_status" => "testcases#save_status"
-  match "testcase/no_relate" => "testcases#no_relate"
-  match "testcase/filter" => "testcases#filter"
-  match "testcase/link_to_bug" => 'testcases#link_to_bug'
-  match 'testcase/bug_links' => 'testcases#bug_links'
+  get "testcase/add_link" => "testcases#add_link"
+  get "testcase/remove_link" => "testcases#remove_link"
+  get "testcase/update_status" => "testcases#update_status"
+  get "testcase/save_status" => "testcases#save_status"
+  get "testcase/no_relate" => "testcases#no_relate"
+  get "testcase/filter" => "testcases#filter"
+  get "testcase/link_to_bug" => 'testcases#link_to_bug'
+  get 'testcase/bug_links' => 'testcases#bug_links'
 
   resources :attachments
-#  match "attachment/attach_to_bug" => "attachment#attach_to_bug"
+#  get "attachment/attach_to_bug" => "attachment#attach_to_bug"
 
   resources :features
 
@@ -77,11 +77,11 @@ Rorup4q::Application.routes.draw do
   resources :user_track_xrefs
 
   resources :tracks
-  match "track/delete_repository" => "tracks#delete_repository"
+  get "track/delete_repository" => "tracks#delete_repository"
 
   resources :products
-  match "product/add_member" => "products#add_member"
-  match "product/filter" => "products#filter"
+  get "product/add_member" => "products#add_member"
+  get "product/filter" => "products#filter"
 
   resources :users
 
@@ -96,11 +96,11 @@ Rorup4q::Application.routes.draw do
   # first created -> highest priority.
 
   # Sample of regular route:
-  #   match 'products/:id' => 'catalog#view'
+  #   get 'products/:id' => 'catalog#view'
   # Keep in mind you can assign values other than :controller and :action
 
   # Sample of named route:
-  #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
+  #   get 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
   # This route can be invoked with purchase_url(:id => product.id)
 
   # Sample resource route (maps HTTP verbs to controller actions automatically):
@@ -147,6 +147,6 @@ Rorup4q::Application.routes.draw do
 
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
-  # match ':controller(/:action(/:id(.:format)))'
+  # get ':controller(/:action(/:id(.:format)))'
   get 'stats' => 'stats#index'
 end

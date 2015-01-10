@@ -31,3 +31,5 @@ gem 'mysql2'#, '0.2.7'
 # end
 
 gem 'grit'
+
+#gem 'prototype-rails'
